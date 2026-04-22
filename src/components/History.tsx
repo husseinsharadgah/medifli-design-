@@ -19,7 +19,7 @@ export function History() {
         </div>
         <div className="flex items-center space-x-3">
           <div className="relative">
-            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
             <input 
               type="text" 
               placeholder="Search topics..." 
@@ -34,7 +34,7 @@ export function History() {
 
       {/* Summary Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-gradient-to-br from-indigo-600 to-violet-700 rounded-3xl p-6 text-white shadow-lg">
+        <div className="bg-gradient-to-br from-indigo-600 to-violet-700 rounded-3xl p-6 text-primary shadow-lg">
           <div className="flex items-center space-x-3 mb-4 opacity-80">
             <Clock className="w-5 h-5" />
             <span className="font-medium">Total Study Time</span>
@@ -103,7 +103,7 @@ export function History() {
                   </div>
                 </div>
                 <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center group-hover:bg-indigo-100 group-hover:text-indigo-600 transition-colors">
-                  <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-indigo-600" />
+                  <ChevronRight className="w-5 h-5 text-muted group-hover:text-indigo-600" />
                 </div>
               </div>
             </div>

@@ -157,13 +157,13 @@ export function MockExam({ onExit, onPause, initialState, tutorMode = false }: M
   if (isFinished) {
     return (
       <div className="max-w-[800px] mx-auto pt-8 pb-12 font-sans animation-fade-in flex flex-col items-center">
-        <div className="w-full bg-[#131B2F] border border-[#1e293b] p-10 rounded-3xl text-center shadow-xl mb-8 relative overflow-hidden">
+        <div className="w-full bg-surface border border-divider p-10 rounded-3xl text-center shadow-xl mb-8 relative overflow-hidden">
           <div className={`absolute top-0 right-0 w-full h-full bg-gradient-to-b ${score >= 7 ? 'from-emerald-500/10' : score >= 4 ? 'from-amber-500/10' : 'from-rose-500/10'} to-transparent pointer-events-none opacity-50`}></div>
           
           <div className="relative z-10">
             <BarChart3 className="w-16 h-16 text-blue-400 mx-auto mb-6" />
-            <h2 className="text-4xl font-black text-white tracking-widest uppercase mb-2">Session Complete</h2>
-            <p className="text-slate-400 mb-8">You have successfully completed the drill session.</p>
+            <h2 className="text-4xl font-black text-primary tracking-widest uppercase mb-2">Session Complete</h2>
+            <p className="text-muted mb-8">You have successfully completed the drill session.</p>
 
             <div className="flex justify-center mb-10">
               <div className="relative">
@@ -178,8 +178,8 @@ export function MockExam({ onExit, onPause, initialState, tutorMode = false }: M
                   />
                 </svg>
                 <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
-                  <span className="text-5xl font-black text-white">{Math.round((score / totalQuestions) * 100)}%</span>
-                  <span className="block text-sm text-slate-400 font-bold uppercase tracking-widest mt-1">{score} / {totalQuestions}</span>
+                  <span className="text-5xl font-black text-primary">{Math.round((score / totalQuestions) * 100)}%</span>
+                  <span className="block text-sm text-muted font-bold uppercase tracking-widest mt-1">{score} / {totalQuestions}</span>
                 </div>
               </div>
             </div>
@@ -192,14 +192,14 @@ export function MockExam({ onExit, onPause, initialState, tutorMode = false }: M
                   setCurrentIndex(0);
                   setIsFinished(false);
                 }}
-                className="bg-[#0B0F19] text-white border border-[#1e293b] hover:border-slate-500 px-6 py-3 rounded-xl font-bold transition-all flex items-center space-x-2"
+                className="bg-base text-primary border border-divider hover:border-slate-500 px-6 py-3 rounded-xl font-bold transition-all flex items-center space-x-2"
               >
                 <RotateCcw className="w-4 h-4" />
                 <span>Retry Exam</span>
               </button>
               <button 
                 onClick={onExit}
-                className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-xl font-bold transition-all shadow-lg shadow-blue-500/20"
+                className="bg-blue-600 hover:bg-blue-500 text-primary px-6 py-3 rounded-xl font-bold transition-all shadow-lg shadow-blue-500/20"
               >
                 Return to Dashboard
               </button>
@@ -209,18 +209,18 @@ export function MockExam({ onExit, onPause, initialState, tutorMode = false }: M
 
         {/* Review Results */}
         <div className="w-full space-y-6">
-          <h3 className="text-xl font-black text-white tracking-widest uppercase mb-6 px-2">Detailed Review</h3>
+          <h3 className="text-xl font-black text-primary tracking-widest uppercase mb-6 px-2">Detailed Review</h3>
           {MOCK_QUESTIONS.map((q, idx) => {
             const userAnswer = answers[q.id];
             const isCorrect = userAnswer === q.correctAnswer;
             const isFlagged = flags[q.id];
             
             return (
-              <div key={q.id} className={`bg-[#131B2F] border ${isCorrect ? 'border-emerald-500/30' : 'border-rose-500/30'} p-6 rounded-2xl relative`}>
+              <div key={q.id} className={`bg-surface border ${isCorrect ? 'border-emerald-500/30' : 'border-rose-500/30'} p-6 rounded-2xl relative`}>
                 {isFlagged && (
-                  <div className="absolute top-0 right-8 -translate-y-1/2 bg-[#0B0F19] border border-[#1e293b] px-3 py-1 rounded-full flex items-center space-x-1">
+                  <div className="absolute top-0 right-8 -translate-y-1/2 bg-base border border-divider px-3 py-1 rounded-full flex items-center space-x-1">
                      <Flag className="w-3 h-3 text-rose-500 fill-rose-500" />
-                     <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Flagged</span>
+                     <span className="text-[10px] text-muted font-bold uppercase tracking-widest">Flagged</span>
                   </div>
                 )}
                 <div className="flex items-start justify-between mb-4 mt-2">
@@ -237,37 +237,37 @@ export function MockExam({ onExit, onPause, initialState, tutorMode = false }: M
                     </div>
                   )}
                 </div>
-                <p className="text-lg text-white font-medium mb-6 leading-relaxed">{q.question}</p>
+                <p className="text-lg text-primary font-medium mb-6 leading-relaxed">{q.question}</p>
                 
                 <div className="space-y-3 mb-6">
                   {q.options.map((opt, oIdx) => {
                     const isSelected = userAnswer === oIdx;
                     const isActualCorrect = q.correctAnswer === oIdx;
                     
-                    let bgClass = "bg-[#0B0F19] border-[#1e293b]";
-                    let textClass = "text-slate-400";
+                    let bgClass = "bg-base border-divider";
+                    let textClass = "text-muted";
                     
                     if (isActualCorrect) {
-                      bgClass = "bg-emerald-500/20 border-emerald-500/50";
-                      textClass = "text-emerald-400 font-bold";
+                      bgClass = "bg-emerald-500/10 border-emerald-500/50";
+                      textClass = "text-emerald-600 font-bold";
                     } else if (isSelected && !isActualCorrect) {
-                      bgClass = "bg-rose-500/20 border-rose-500/50";
-                      textClass = "text-rose-400 font-bold";
+                      bgClass = "bg-rose-500/10 border-rose-500/50";
+                      textClass = "text-rose-600 font-bold";
                     }
 
                     return (
                       <div key={oIdx} className={`p-4 rounded-xl border ${bgClass} ${textClass} flex items-center justify-between`}>
                         <span>{opt}</span>
-                        {isActualCorrect && <CheckCircle2 className="w-5 h-5 text-emerald-500" />}
-                        {isSelected && !isActualCorrect && <XCircle className="w-5 h-5 text-rose-500" />}
+                        {isActualCorrect && <CheckCircle2 className="w-5 h-5 text-emerald-600" />}
+                        {isSelected && !isActualCorrect && <XCircle className="w-5 h-5 text-rose-600" />}
                       </div>
                     );
                   })}
                 </div>
 
-                <div className="bg-[#0B0F19] border border-[#1e293b] p-4 rounded-xl flex items-start space-x-3">
+                <div className="bg-base border border-divider p-4 rounded-xl flex items-start space-x-3">
                   <AlertCircle className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
-                  <p className="text-sm text-slate-300 leading-relaxed"><strong className="text-slate-100">Explanation:</strong> {q.explanation}</p>
+                  <p className="text-sm text-secondary leading-relaxed"><strong className="text-primary">Explanation:</strong> {q.explanation}</p>
                 </div>
               </div>
             );
@@ -283,13 +283,13 @@ export function MockExam({ onExit, onPause, initialState, tutorMode = false }: M
     <div className="w-full min-h-full flex flex-col mx-auto px-4 sm:px-8 lg:px-16 pt-6 pb-8 font-sans animation-fade-in relative">
       
       {/* Sleek Top Header */}
-      <div className="flex items-center justify-between mb-8 bg-[#131B2F]/60 backdrop-blur-md border border-[#1e293b] p-4 rounded-2xl shadow-sm">
+      <div className="flex items-center justify-between mb-8 bg-surface/60 backdrop-blur-md border border-divider p-4 rounded-2xl shadow-sm">
         <div className="flex items-center space-x-6">
-          <button onClick={() => setShowExitConfirm(true)} className="text-slate-400 hover:text-white transition-colors flex items-center space-x-2 group">
+          <button onClick={() => setShowExitConfirm(true)} className="text-muted hover:text-primary transition-colors flex items-center space-x-2 group">
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
             <span className="font-semibold text-sm hidden sm:inline">Exit</span>
           </button>
-          <div className="w-px h-6 bg-[#1e293b]"></div>
+          <div className="w-px h-6 bg-surface-hover"></div>
           <button onClick={() => setShowPauseConfirm(true)} className="text-amber-500/80 hover:text-amber-400 transition-colors flex items-center space-x-2 group">
             <Pause className="w-4 h-4 group-hover:scale-110 transition-transform" />
             <span className="font-semibold text-sm hidden sm:inline">Pause</span>
@@ -297,8 +297,8 @@ export function MockExam({ onExit, onPause, initialState, tutorMode = false }: M
         </div>
 
         <div className="flex items-center space-x-4">
-          <span className="text-slate-300 font-medium text-sm">Question {currentIndex + 1} of {totalQuestions}</span>
-          <div className="w-px h-6 bg-[#1e293b]"></div>
+          <span className="text-secondary font-medium text-sm">Question {currentIndex + 1} of {totalQuestions}</span>
+          <div className="w-px h-6 bg-surface-hover"></div>
           <button 
             onClick={() => setShowNavigator(true)} 
             className="flex items-center space-x-2 text-blue-400 hover:text-blue-300 bg-blue-500/10 hover:bg-blue-500/20 px-4 py-2 rounded-xl transition-all font-semibold text-sm border border-blue-500/20"
@@ -312,14 +312,14 @@ export function MockExam({ onExit, onPause, initialState, tutorMode = false }: M
       {/* Navigator Modal Overlay */}
       {showNavigator && (
         <div className="absolute inset-0 z-50 flex items-center justify-center p-4 bg-[#020617]/80 backdrop-blur-sm animation-fade-in">
-          <div className="bg-[#131B2F] border border-[#1e293b] rounded-3xl p-8 max-w-2xl w-full shadow-2xl relative">
+          <div className="bg-surface border border-divider rounded-3xl p-8 max-w-2xl w-full shadow-2xl relative">
             <button 
               onClick={() => setShowNavigator(false)}
-              className="absolute top-6 right-6 text-slate-400 hover:text-white transition-colors"
+              className="absolute top-6 right-6 text-muted hover:text-primary transition-colors"
             >
               <X className="w-6 h-6" />
             </button>
-            <h3 className="text-2xl font-semibold text-white mb-8 flex items-center space-x-3">
+            <h3 className="text-2xl font-semibold text-primary mb-8 flex items-center space-x-3">
               <LayoutGrid className="w-6 h-6 text-blue-400" />
               <span>Exam Navigator</span>
             </h3>
@@ -331,8 +331,8 @@ export function MockExam({ onExit, onPause, initialState, tutorMode = false }: M
                 const isFlagged = flags[q.id];
                 const isCurrent = currentIndex === idx;
 
-                let baseStyle = "bg-[#0B0F19] border-[#1e293b] text-slate-400 hover:border-slate-500";
-                if (isCurrent) baseStyle = "bg-blue-500 border-blue-400 text-white shadow-lg shadow-blue-500/20";
+                let baseStyle = "bg-base border-divider text-muted hover:border-slate-500";
+                if (isCurrent) baseStyle = "bg-blue-500 border-blue-400 text-primary shadow-lg shadow-blue-500/20";
                 else if (isAnswered) baseStyle = "bg-emerald-500/10 border-emerald-500/40 text-emerald-400";
                 
                 return (
@@ -355,10 +355,10 @@ export function MockExam({ onExit, onPause, initialState, tutorMode = false }: M
               })}
             </div>
 
-            <div className="mt-8 pt-6 border-t border-[#1e293b] flex items-center justify-between text-sm text-slate-400">
+            <div className="mt-8 pt-6 border-t border-divider flex items-center justify-between text-sm text-muted">
               <div className="flex items-center space-x-4">
                 <div className="flex items-center space-x-2"><div className="w-3 h-3 rounded-sm bg-emerald-500/20 border border-emerald-500/40"></div><span>Answered</span></div>
-                <div className="flex items-center space-x-2"><div className="w-3 h-3 rounded-sm bg-[#0B0F19] border border-[#1e293b]"></div><span>Unanswered</span></div>
+                <div className="flex items-center space-x-2"><div className="w-3 h-3 rounded-sm bg-base border border-divider"></div><span>Unanswered</span></div>
                 <div className="flex items-center space-x-2"><Flag className="w-3 h-3 text-rose-500 fill-rose-500" /><span>Flagged</span></div>
               </div>
             </div>
@@ -369,27 +369,27 @@ export function MockExam({ onExit, onPause, initialState, tutorMode = false }: M
       {/* Exit Confirmation Modal Overlay */}
       {showExitConfirm && (
         <div className="absolute inset-0 z-50 flex items-center justify-center p-4 bg-[#020617]/80 backdrop-blur-sm animation-fade-in">
-          <div className="bg-[#131B2F] border border-[#1e293b] rounded-3xl p-8 max-w-md w-full shadow-2xl relative">
+          <div className="bg-surface border border-divider rounded-3xl p-8 max-w-md w-full shadow-2xl relative">
             <div className="w-16 h-16 bg-rose-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
               <AlertCircle className="w-8 h-8 text-rose-500" />
             </div>
-            <h3 className="text-2xl font-semibold text-white mb-4 text-center">
+            <h3 className="text-2xl font-semibold text-primary mb-4 text-center">
               Exit Session?
             </h3>
-            <p className="text-slate-400 text-center mb-8">
+            <p className="text-muted text-center mb-8">
               Are you sure you want to leave? Your progress will be lost unless you pause the session instead.
             </p>
             
             <div className="flex space-x-4">
               <button 
                 onClick={() => setShowExitConfirm(false)}
-                className="flex-1 px-4 py-3 rounded-xl border border-[#1e293b] text-slate-300 hover:bg-[#1e293b]/50 hover:text-white font-semibold transition-all"
+                className="flex-1 px-4 py-3 rounded-xl border border-divider text-secondary hover:bg-surface-hover/50 hover:text-primary font-semibold transition-all"
               >
                 Cancel
               </button>
               <button 
                 onClick={onExit}
-                className="flex-1 bg-rose-600 hover:bg-rose-500 text-white px-4 py-3 rounded-xl font-semibold transition-all shadow-lg shadow-rose-500/20"
+                className="flex-1 bg-rose-600 hover:bg-rose-500 text-primary px-4 py-3 rounded-xl font-semibold transition-all shadow-lg shadow-rose-500/20"
               >
                 Yes, Leave
               </button>
@@ -401,27 +401,27 @@ export function MockExam({ onExit, onPause, initialState, tutorMode = false }: M
       {/* Pause Confirmation Modal Overlay */}
       {showPauseConfirm && (
         <div className="absolute inset-0 z-50 flex items-center justify-center p-4 bg-[#020617]/80 backdrop-blur-sm animation-fade-in">
-          <div className="bg-[#131B2F] border border-[#1e293b] rounded-3xl p-8 max-w-md w-full shadow-2xl relative">
+          <div className="bg-surface border border-divider rounded-3xl p-8 max-w-md w-full shadow-2xl relative">
             <div className="w-16 h-16 bg-amber-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
               <Pause className="w-8 h-8 text-amber-500 fill-amber-500" />
             </div>
-            <h3 className="text-2xl font-semibold text-white mb-4 text-center">
+            <h3 className="text-2xl font-semibold text-primary mb-4 text-center">
               Pause Session?
             </h3>
-            <p className="text-slate-400 text-center mb-8">
+            <p className="text-muted text-center mb-8">
               Are you sure you want to pause? You can resume exactly where you left off later from the Quizzes menu.
             </p>
             
             <div className="flex space-x-4">
               <button 
                 onClick={() => setShowPauseConfirm(false)}
-                className="flex-1 px-4 py-3 rounded-xl border border-[#1e293b] text-slate-300 hover:bg-[#1e293b]/50 hover:text-white font-semibold transition-all"
+                className="flex-1 px-4 py-3 rounded-xl border border-divider text-secondary hover:bg-surface-hover/50 hover:text-primary font-semibold transition-all"
               >
                 Cancel
               </button>
               <button 
                 onClick={handlePause}
-                className="flex-1 bg-amber-600 hover:bg-amber-500 text-white px-4 py-3 rounded-xl font-semibold transition-all shadow-lg shadow-amber-500/20"
+                className="flex-1 bg-amber-600 hover:bg-amber-500 text-primary px-4 py-3 rounded-xl font-semibold transition-all shadow-lg shadow-amber-500/20"
               >
                 Yes, Pause
               </button>
@@ -432,7 +432,7 @@ export function MockExam({ onExit, onPause, initialState, tutorMode = false }: M
 
       {/* Clean Question Card */}
       <div className="flex-1 max-w-[800px] w-full mx-auto mt-4 mb-8">
-        <div className="bg-[#0B0F19] md:bg-transparent rounded-none md:rounded-3xl p-2 md:p-4 mb-4">
+        <div className="bg-base md:bg-transparent rounded-none md:rounded-3xl p-2 md:p-4 mb-4">
           <div className="mb-4 flex items-center justify-between">
             <span className="text-sm font-semibold text-slate-500 uppercase tracking-widest">Question {currentIndex + 1}</span>
             {tutorMode && (
@@ -441,16 +441,16 @@ export function MockExam({ onExit, onPause, initialState, tutorMode = false }: M
               </span>
             )}
           </div>
-          <h3 className="text-xl md:text-2xl text-slate-100 font-normal leading-relaxed mb-10 tracking-wide">
+          <h3 className="text-xl md:text-2xl text-primary font-normal leading-relaxed mb-10 tracking-wide">
             {currentQuestion.question}
           </h3>
 
           {usedHints[currentQuestion.id] && currentQuestion.hint && (
             <div className="mb-8 p-5 bg-amber-500/10 border border-amber-500/20 rounded-2xl flex items-start space-x-4 animation-fade-in shadow-[0_0_15px_rgba(245,158,11,0.05)]">
-              <Lightbulb className="w-6 h-6 text-amber-400 flex-shrink-0" />
+              <Lightbulb className="w-6 h-6 text-amber-500 flex-shrink-0" />
               <div>
-                <h4 className="text-amber-400 font-semibold tracking-wide uppercase mb-1 text-sm">Hint</h4>
-                <p className="text-amber-100/90 leading-relaxed text-base">{currentQuestion.hint}</p>
+                <h4 className="text-amber-500 font-semibold tracking-wide uppercase mb-1 text-sm">Hint</h4>
+                <p className="text-primary leading-relaxed text-base">{currentQuestion.hint}</p>
               </div>
             </div>
           )}
@@ -464,11 +464,11 @@ export function MockExam({ onExit, onPause, initialState, tutorMode = false }: M
               if (tutorMode && hasAnsweredCurrent) {
                 isCorrectAnswer = currentQuestion.correctAnswer === idx;
                 if (isCorrectAnswer) {
-                  tutorStyles = "bg-emerald-900/40 border-emerald-500/50 text-emerald-100 ring-1 ring-emerald-500/50";
+                  tutorStyles = "bg-emerald-500/10 border-emerald-500/50 text-emerald-600 ring-1 ring-emerald-500/50";
                 } else if (isSelected && !isCorrectAnswer) {
-                  tutorStyles = "bg-rose-900/20 border-rose-500/30 text-slate-400 opacity-60";
+                  tutorStyles = "bg-rose-500/10 border-rose-500/30 text-rose-600 opacity-80";
                 } else {
-                  tutorStyles = "opacity-40 border-transparent bg-[#131B2F]";
+                  tutorStyles = "opacity-40 border-transparent bg-surface text-primary";
                 }
               }
 
@@ -479,25 +479,25 @@ export function MockExam({ onExit, onPause, initialState, tutorMode = false }: M
                   disabled={tutorMode && hasAnsweredCurrent}
                   className={`w-full text-left px-5 py-4 rounded-xl border transition-all duration-200 flex items-center justify-between group
                     ${!tutorMode && isSelected 
-                      ? 'border-blue-500 bg-blue-900/20 text-white' 
+                      ? 'border-blue-500 bg-blue-500/10 text-primary' 
                       : !tutorMode && !isSelected 
-                        ? 'border-[#1e293b] bg-[#131B2F] hover:border-slate-500 text-slate-300'
+                        ? 'border-divider bg-surface hover:border-blue-500/50'
                         : ''}
                     ${tutorMode && !hasAnsweredCurrent 
-                      ? 'border-[#1e293b] bg-[#131B2F] hover:border-blue-500 hover:bg-blue-900/10 text-slate-300' 
+                      ? 'border-divider bg-surface hover:border-blue-500/50 hover:bg-blue-500/5' 
                       : ''}
                     ${tutorMode ? tutorStyles : ''}
                   `}
                 >
-                  <div className="flex items-center space-x-4">
-                    <div className={`w-6 h-6 rounded flex items-center justify-center font-bold text-xs transition-colors
-                      ${!tutorMode && isSelected ? 'bg-blue-500 text-white' : 'bg-[#1e293b] text-slate-400 group-hover:bg-slate-700'}
+                  <div className="flex items-center space-x-4 w-full">
+                    <div className={`w-6 h-6 rounded flex items-center justify-center font-bold text-xs transition-colors shadow-sm
+                      ${!tutorMode && isSelected ? 'bg-blue-500 text-white' : 'bg-surface-hover text-primary group-hover:bg-blue-500/20 group-hover:text-blue-600'}
                       ${tutorMode && hasAnsweredCurrent && isCorrectAnswer ? 'bg-emerald-500 text-white' : ''}
                       ${tutorMode && hasAnsweredCurrent && isSelected && !isCorrectAnswer ? 'bg-rose-500 text-white' : ''}
                     `}>
                       {String.fromCharCode(65 + idx)}
                     </div>
-                    <span className="text-base md:text-lg leading-snug">
+                    <span className={`text-base md:text-lg leading-snug font-medium text-left flex-1 ${tutorMode && hasAnsweredCurrent ? '' : 'text-primary'}`}>
                       {option}
                     </span>
                   </div>
@@ -513,11 +513,11 @@ export function MockExam({ onExit, onPause, initialState, tutorMode = false }: M
 
           {/* Tutor Mode Explanation Reveal */}
           {tutorMode && hasAnsweredCurrent && (
-             <div className="mt-8 p-6 bg-[#131B2F] border border-[#1e293b] rounded-2xl animation-fade-in flex space-x-4 shadow-[0_0_15px_rgba(0,0,0,0.2)]">
+             <div className="mt-8 p-6 bg-surface border border-divider rounded-2xl animation-fade-in flex space-x-4 shadow-[0_0_15px_rgba(0,0,0,0.2)]">
                <AlertCircle className="w-6 h-6 text-blue-400 flex-shrink-0" />
                <div>
-                 <h4 className="text-white font-semibold tracking-wide uppercase mb-2 text-sm">Explanation</h4>
-                 <p className="text-slate-300 leading-relaxed text-base">{currentQuestion.explanation}</p>
+                 <h4 className="text-primary font-semibold tracking-wide uppercase mb-2 text-sm">Explanation</h4>
+                 <p className="text-secondary leading-relaxed text-base">{currentQuestion.explanation}</p>
                </div>
              </div>
           )}
@@ -525,7 +525,7 @@ export function MockExam({ onExit, onPause, initialState, tutorMode = false }: M
       </div>
 
       {/* Bottom Navigation */}
-      <div className="w-full mt-auto flex items-center justify-between pt-6 border-t border-[#1e293b]">
+      <div className="w-full mt-auto flex items-center justify-between pt-6 border-t border-divider">
         <div className="flex items-center space-x-2 sm:space-x-4">
           <button
             onClick={handlePrev}
@@ -533,7 +533,7 @@ export function MockExam({ onExit, onPause, initialState, tutorMode = false }: M
             className={`flex items-center space-x-2 px-4 py-3 rounded-xl font-semibold transition-all ${
               currentIndex === 0 
                 ? 'opacity-30 cursor-not-allowed text-slate-500' 
-                : 'text-slate-400 hover:text-white hover:bg-[#131B2F]'
+                : 'text-muted hover:text-primary hover:bg-surface'
             }`}
           >
             <ChevronLeft className="w-4 h-4" />
@@ -545,7 +545,7 @@ export function MockExam({ onExit, onPause, initialState, tutorMode = false }: M
              className={`flex items-center space-x-2 px-4 py-3 rounded-xl font-semibold transition-all ${
                flags[currentQuestion.id] 
                  ? 'bg-rose-500/10 text-rose-400'
-                 : 'text-slate-400 hover:text-rose-400 hover:bg-[#131B2F]'
+                 : 'text-muted hover:text-rose-400 hover:bg-surface'
              }`}
            >
              <Flag className={`w-4 h-4 ${flags[currentQuestion.id] ? 'fill-current' : ''}`} />
@@ -557,7 +557,7 @@ export function MockExam({ onExit, onPause, initialState, tutorMode = false }: M
             className={`flex items-center space-x-2 px-4 py-3 rounded-xl font-semibold transition-all ${
               usedHints[currentQuestion.id] 
                 ? 'bg-amber-500/10 text-amber-400'
-                : 'text-slate-400 hover:text-amber-400 hover:bg-[#131B2F]'
+                : 'text-muted hover:text-amber-400 hover:bg-surface'
             }`}
           >
             <Lightbulb className={`w-4 h-4 ${usedHints[currentQuestion.id] ? 'fill-current' : ''}`} />
@@ -571,8 +571,8 @@ export function MockExam({ onExit, onPause, initialState, tutorMode = false }: M
             disabled={!hasAnsweredCurrent}
             className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-semibold tracking-wide transition-all ${
               hasAnsweredCurrent 
-                ? 'bg-blue-600 text-white hover:bg-blue-500 shadow-lg shadow-blue-500/20 transform active:scale-95' 
-                : 'bg-[#131B2F] text-slate-600 cursor-not-allowed border border-[#1e293b]'
+                ? 'bg-blue-600 text-primary hover:bg-blue-500 shadow-lg shadow-blue-500/20 transform active:scale-95' 
+                : 'bg-surface text-slate-600 cursor-not-allowed border border-divider'
             }`}
           >
             <span className="hidden sm:inline">Finish Exam</span>

@@ -1,5 +1,50 @@
 @import "tailwindcss";
 
+@theme {
+  --color-base: var(--theme-base);
+  --color-surface: var(--theme-surface);
+  --color-surface-hover: var(--theme-surface-hover);
+  --color-divider: var(--theme-divider);
+  --color-divider-hover: var(--theme-divider-hover);
+  --color-primary: var(--theme-primary);
+  --color-secondary: var(--theme-secondary);
+  --color-muted: var(--theme-muted);
+}
+
+:root {
+  /* DARK MODE (Default) */
+  --theme-base: #0B0F19;
+  --theme-surface: #131B2F;
+  --theme-surface-hover: #1e293b;
+  --theme-divider: #1e293b;
+  --theme-divider-hover: #334155;
+  --theme-primary: #ffffff;
+  --theme-secondary: #cbd5e1; /* slate-300 */
+  --theme-muted: #94a3b8; /* slate-400 */
+}
+
+.theme-light {
+  /* LIGHT MODE (Eye pleasing & soft) */
+  --theme-base: #f8fafc; /* slate-50 */
+  --theme-surface: #ffffff;
+  --theme-surface-hover: #f1f5f9; /* slate-100 */
+  --theme-divider: #e2e8f0; /* slate-200 */
+  --theme-divider-hover: #cbd5e1; /* slate-300 */
+  --theme-primary: #0f172a; /* slate-900 */
+  --theme-secondary: #334155; /* slate-700 */
+  --theme-muted: #64748b; /* slate-500 */
+  
+  /* Force Tailwind variables to update synchronously */
+  --color-base: var(--theme-base);
+  --color-surface: var(--theme-surface);
+  --color-surface-hover: var(--theme-surface-hover);
+  --color-divider: var(--theme-divider);
+  --color-divider-hover: var(--theme-divider-hover);
+  --color-primary: var(--theme-primary);
+  --color-secondary: var(--theme-secondary);
+  --color-muted: var(--theme-muted);
+}
+
 @layer utilities {
   .perspective-1000 {
     perspective: 1000px;

@@ -73,8 +73,8 @@ export function StudentOnboarding({ onComplete, onBack }: OnboardingProps) {
         return (
           <div className="space-y-6 w-full max-w-2xl mx-auto">
             <div className="text-center space-y-2 mb-10">
-              <h2 className="text-3xl font-bold text-white tracking-tight">Select your University</h2>
-              <p className="text-slate-400">Choose your academic institution to customize your experience.</p>
+              <h2 className="text-3xl font-bold text-primary tracking-tight">Select your University</h2>
+              <p className="text-muted">Choose your academic institution to customize your experience.</p>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -85,12 +85,12 @@ export function StudentOnboarding({ onComplete, onBack }: OnboardingProps) {
                     setUni(u);
                     nextStep();
                   }}
-                  className="flex items-center space-x-4 p-5 rounded-2xl border border-[#1e293b] bg-[#131B2F] hover:border-[#3B82F6] hover:bg-[#1e293b] transition-all text-left group cursor-pointer shadow-lg"
+                  className="flex items-center space-x-4 p-5 rounded-2xl border border-divider bg-surface hover:border-[#3B82F6] hover:bg-surface-hover transition-all text-left group cursor-pointer shadow-lg"
                 >
-                  <div className="w-12 h-12 bg-[#0B0F19] border border-[#1e293b] text-[#3B82F6] group-hover:bg-[#3B82F6] group-hover:text-white rounded-xl flex items-center justify-center transition-colors shrink-0">
+                  <div className="w-12 h-12 bg-base border border-divider text-[#3B82F6] group-hover:bg-[#3B82F6] group-hover:text-primary rounded-xl flex items-center justify-center transition-colors shrink-0">
                     <Building2 className="w-6 h-6" />
                   </div>
-                  <span className="font-bold text-slate-300 group-hover:text-white">{u}</span>
+                  <span className="font-bold text-secondary group-hover:text-primary">{u}</span>
                 </button>
               ))}
             </div>
@@ -101,8 +101,8 @@ export function StudentOnboarding({ onComplete, onBack }: OnboardingProps) {
         return (
           <div className="space-y-6 w-full max-w-2xl mx-auto">
             <div className="text-center space-y-2 mb-10">
-              <h2 className="text-3xl font-bold text-white tracking-tight">What is your Major?</h2>
-              <p className="text-slate-400">Tailoring the question bank for your specific track.</p>
+              <h2 className="text-3xl font-bold text-primary tracking-tight">What is your Major?</h2>
+              <p className="text-muted">Tailoring the question bank for your specific track.</p>
             </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -113,12 +113,12 @@ export function StudentOnboarding({ onComplete, onBack }: OnboardingProps) {
                     setMajor(m.id);
                     nextStep();
                   }}
-                  className={`flex flex-col items-center justify-center p-8 rounded-3xl border border-[#1e293b] bg-[#131B2F] ${m.hoverBorder} transition-all group shadow-lg cursor-pointer`}
+                  className={`flex flex-col items-center justify-center p-8 rounded-3xl border border-divider bg-surface ${m.hoverBorder} transition-all group shadow-lg cursor-pointer`}
                 >
                   <div className={`w-20 h-20 rounded-2xl flex items-center justify-center mb-6 ${m.bg} ${m.color} group-hover:scale-110 transition-transform`}>
                     <m.icon className="w-10 h-10" />
                   </div>
-                  <span className="text-xl font-bold text-white">{m.id}</span>
+                  <span className="text-xl font-bold text-primary">{m.id}</span>
                 </button>
               ))}
             </div>
@@ -132,8 +132,8 @@ export function StudentOnboarding({ onComplete, onBack }: OnboardingProps) {
         return (
           <div className="space-y-6 w-full max-w-2xl mx-auto">
             <div className="text-center space-y-2 mb-10">
-              <h2 className="text-3xl font-bold text-white tracking-tight">Which Year?</h2>
-              <p className="text-slate-400">Select your current academic year in {major}.</p>
+              <h2 className="text-3xl font-bold text-primary tracking-tight">Which Year?</h2>
+              <p className="text-muted">Select your current academic year in {major}.</p>
             </div>
             
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
@@ -141,12 +141,12 @@ export function StudentOnboarding({ onComplete, onBack }: OnboardingProps) {
                 <button
                   key={y}
                   onClick={() => handleComplete(y)}
-                  className="flex flex-col items-center justify-center p-6 rounded-2xl border border-[#1e293b] bg-[#131B2F] hover:border-[#3B82F6] hover:bg-[#1e293b] transition-all group cursor-pointer shadow-lg"
+                  className="flex flex-col items-center justify-center p-6 rounded-2xl border border-divider bg-surface hover:border-[#3B82F6] hover:bg-surface-hover transition-all group cursor-pointer shadow-lg"
                 >
-                  <div className="w-12 h-12 bg-[#0B0F19] border border-[#1e293b] text-[#3B82F6] group-hover:bg-[#3B82F6] group-hover:text-white rounded-full flex items-center justify-center mb-3 transition-colors">
+                  <div className="w-12 h-12 bg-base border border-divider text-[#3B82F6] group-hover:bg-[#3B82F6] group-hover:text-primary rounded-full flex items-center justify-center mb-3 transition-colors">
                     <GraduationCap className="w-6 h-6" />
                   </div>
-                  <span className="font-bold text-slate-300 group-hover:text-white text-lg">Year {y}</span>
+                  <span className="font-bold text-secondary group-hover:text-primary text-lg">Year {y}</span>
                 </button>
               ))}
             </div>
@@ -159,18 +159,16 @@ export function StudentOnboarding({ onComplete, onBack }: OnboardingProps) {
   };
 
   return (
-    <div className="min-h-screen bg-[#0B0F19] flex flex-col font-sans selection:bg-[#3B82F6]/30 pb-12 relative overflow-hidden">
+    <div className="min-h-screen bg-base flex flex-col font-sans selection:bg-[#3B82F6]/30 pb-12 relative">
       
       {/* Interactive Background */}
-      <div className="absolute inset-0 z-0">
-        <DustBackground />
-      </div>
+      <DustBackground />
 
       {/* Top Navigation */}
       <header className="px-6 py-6 flex items-center justify-between pointer-events-none relative z-10">
         <div className="flex items-center space-x-2 text-[#3B82F6] pointer-events-auto">
           <BrainCircuit className="w-8 h-8" />
-          <span className="font-extrabold text-2xl tracking-tight text-white">Medifli</span>
+          <span className="font-extrabold text-2xl tracking-tight text-primary">Medifli</span>
         </div>
         
         {/* Progress Dots */}
@@ -178,7 +176,7 @@ export function StudentOnboarding({ onComplete, onBack }: OnboardingProps) {
           {[1, 2, 3].map((i) => (
             <div 
               key={i} 
-              className={`h-2.5 rounded-full transition-all duration-300 ${step === i ? 'w-8 bg-[#3B82F6]' : step > i ? 'w-2.5 bg-[#3B82F6]/50' : 'w-2.5 bg-[#1e293b]'}`}
+              className={`h-2.5 rounded-full transition-all duration-300 ${step === i ? 'w-8 bg-[#3B82F6]' : step > i ? 'w-2.5 bg-[#3B82F6]/50' : 'w-2.5 bg-surface-hover'}`}
             />
           ))}
         </div>
@@ -191,7 +189,7 @@ export function StudentOnboarding({ onComplete, onBack }: OnboardingProps) {
         <div className="w-full max-w-2xl mb-6">
           <button 
             onClick={prevStep}
-            className="flex items-center space-x-2 text-slate-400 hover:text-[#3B82F6] transition-colors font-medium cursor-pointer"
+            className="flex items-center space-x-2 text-muted hover:text-[#3B82F6] transition-colors font-medium cursor-pointer"
           >
             <ArrowLeft className="w-5 h-5" />
             <span>{step === 1 ? 'Back to Portals' : 'Back'}</span>

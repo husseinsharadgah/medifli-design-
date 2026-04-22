@@ -53,7 +53,7 @@ export function AdminDashboard({ onExit }: { onExit: () => void }) {
     <div className="flex h-screen bg-slate-50 font-sans text-slate-900 selection:bg-rose-100 selection:text-rose-900 overflow-hidden">
       
       {/* Admin Sidebar */}
-      <aside className="w-72 bg-slate-900 text-white flex flex-col shadow-xl z-20 flex-shrink-0">
+      <aside className="w-72 bg-slate-900 text-primary flex flex-col shadow-xl z-20 flex-shrink-0">
         <div className="p-6 flex items-center space-x-3 border-b border-slate-800">
           <div className="bg-rose-500/20 p-2 rounded-xl">
             <Shield className="w-6 h-6 text-rose-400" />
@@ -68,11 +68,11 @@ export function AdminDashboard({ onExit }: { onExit: () => void }) {
               onClick={() => setActiveTab(tab.id)}
               className={`w-full flex items-center space-x-3 px-4 py-3.5 rounded-2xl transition-all duration-200 cursor-pointer ${
                 activeTab === tab.id
-                  ? 'bg-rose-500 text-white font-bold shadow-md'
-                  : 'text-slate-400 hover:bg-slate-800 hover:text-white font-medium'
+                  ? 'bg-rose-500 text-primary font-bold shadow-md'
+                  : 'text-muted hover:bg-slate-800 hover:text-primary font-medium'
               }`}
             >
-              <tab.icon className={`w-5 h-5 ${activeTab === tab.id ? 'text-white' : 'text-slate-400'}`} />
+              <tab.icon className={`w-5 h-5 ${activeTab === tab.id ? 'text-primary' : 'text-muted'}`} />
               <span>{tab.label}</span>
             </button>
           ))}
@@ -81,7 +81,7 @@ export function AdminDashboard({ onExit }: { onExit: () => void }) {
         <div className="p-4 border-t border-slate-800">
           <button 
             onClick={onExit} 
-            className="w-full flex items-center space-x-3 px-4 py-3 rounded-2xl text-slate-400 hover:bg-slate-800 hover:text-white transition-colors font-medium"
+            className="w-full flex items-center space-x-3 px-4 py-3 rounded-2xl text-muted hover:bg-slate-800 hover:text-primary transition-colors font-medium"
           >
             <LogOut className="w-5 h-5" />
             <span>Exit Admin</span>
@@ -129,7 +129,7 @@ export function AdminDashboard({ onExit }: { onExit: () => void }) {
               </div>
               <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm h-96 flex items-center justify-center">
                 <div className="text-center space-y-4">
-                  <BarChart3 className="w-16 h-16 text-slate-300 mx-auto" />
+                  <BarChart3 className="w-16 h-16 text-secondary mx-auto" />
                   <p className="text-slate-500 font-medium">Detailed analytics dashboard goes here.</p>
                 </div>
               </div>
@@ -148,7 +148,7 @@ export function AdminDashboard({ onExit }: { onExit: () => void }) {
                   </h3>
                   <button 
                     onClick={() => setShowUploadModal(true)}
-                    className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl font-bold text-sm transition-colors flex items-center space-x-2 shadow-sm"
+                    className="bg-indigo-600 hover:bg-indigo-700 text-primary px-5 py-2.5 rounded-xl font-bold text-sm transition-colors flex items-center space-x-2 shadow-sm"
                   >
                     <UploadCloud className="w-4 h-4" />
                     <span>Upload / Add Questions</span>
@@ -203,7 +203,7 @@ export function AdminDashboard({ onExit }: { onExit: () => void }) {
               <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
                 <div className="p-6 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-50/50">
                   <div className="flex items-center space-x-2">
-                    <Database className="w-5 h-5 text-slate-400" />
+                    <Database className="w-5 h-5 text-muted" />
                     <h3 className="text-lg font-bold text-slate-900">
                       {selectedSystem} - {selectedSubject} Questions
                     </h3>
@@ -213,7 +213,7 @@ export function AdminDashboard({ onExit }: { onExit: () => void }) {
                   </div>
                   <div className="flex items-center space-x-3">
                     <div className="relative">
-                      <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                      <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
                       <input 
                         type="text" 
                         placeholder="Search questions..." 
@@ -269,13 +269,13 @@ export function AdminDashboard({ onExit }: { onExit: () => void }) {
                           </td>
                           <td className="p-4 text-right">
                             <div className="flex items-center justify-end space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                              <button className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors" title="View">
+                              <button className="p-1.5 text-muted hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors" title="View">
                                 <Eye className="w-4 h-4" />
                               </button>
-                              <button className="p-1.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" title="Edit">
+                              <button className="p-1.5 text-muted hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" title="Edit">
                                 <Edit3 className="w-4 h-4" />
                               </button>
-                              <button className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors" title="Delete">
+                              <button className="p-1.5 text-muted hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors" title="Delete">
                                 <Trash2 className="w-4 h-4" />
                               </button>
                             </div>
@@ -289,8 +289,8 @@ export function AdminDashboard({ onExit }: { onExit: () => void }) {
                 <div className="p-4 border-t border-slate-100 bg-slate-50/50 flex items-center justify-between text-sm text-slate-500">
                   <span>Showing 1 to 5 of 5 entries</span>
                   <div className="flex space-x-1">
-                    <button className="px-3 py-1 border border-slate-200 rounded-md bg-white text-slate-400 cursor-not-allowed">Prev</button>
-                    <button className="px-3 py-1 border border-indigo-600 rounded-md bg-indigo-600 text-white font-medium">1</button>
+                    <button className="px-3 py-1 border border-slate-200 rounded-md bg-white text-muted cursor-not-allowed">Prev</button>
+                    <button className="px-3 py-1 border border-indigo-600 rounded-md bg-indigo-600 text-primary font-medium">1</button>
                     <button className="px-3 py-1 border border-slate-200 rounded-md bg-white hover:bg-slate-50 text-slate-700">Next</button>
                   </div>
                 </div>
@@ -304,19 +304,19 @@ export function AdminDashboard({ onExit }: { onExit: () => void }) {
               <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
                 <div className="p-6 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-50/50">
                   <div className="flex items-center space-x-2">
-                    <Users className="w-5 h-5 text-slate-400" />
+                    <Users className="w-5 h-5 text-muted" />
                     <h3 className="text-lg font-bold text-slate-900">User Directory</h3>
                   </div>
                   <div className="flex items-center space-x-3">
                     <div className="relative">
-                      <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                      <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
                       <input 
                         type="text" 
                         placeholder="Search users..." 
                         className="pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-500 w-full md:w-64 shadow-sm"
                       />
                     </div>
-                    <button className="bg-rose-600 hover:bg-rose-700 text-white px-4 py-2 rounded-xl font-bold text-sm transition-colors flex items-center space-x-2 shadow-sm">
+                    <button className="bg-rose-600 hover:bg-rose-700 text-primary px-4 py-2 rounded-xl font-bold text-sm transition-colors flex items-center space-x-2 shadow-sm">
                       <Plus className="w-4 h-4" />
                       <span>Invite User</span>
                     </button>
@@ -365,7 +365,7 @@ export function AdminDashboard({ onExit }: { onExit: () => void }) {
                           </td>
                           <td className="p-4 text-sm text-slate-500">{user.lastLogin}</td>
                           <td className="p-4 text-right">
-                            <button className="p-1.5 text-slate-400 hover:text-slate-900 rounded-lg transition-colors">
+                            <button className="p-1.5 text-muted hover:text-slate-900 rounded-lg transition-colors">
                               <MoreVertical className="w-5 h-5" />
                             </button>
                           </td>
@@ -382,12 +382,12 @@ export function AdminDashboard({ onExit }: { onExit: () => void }) {
           {activeTab === 'curriculum' && (
             <div className="space-y-6">
               <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm text-center">
-                <BookOpen className="w-16 h-16 text-slate-300 mx-auto mb-4" />
+                <BookOpen className="w-16 h-16 text-secondary mx-auto mb-4" />
                 <h3 className="text-xl font-bold text-slate-900 mb-2">Curriculum Builder</h3>
                 <p className="text-slate-500 max-w-md mx-auto mb-6">
                   Drag and drop to reorder years, semesters, systems, and subjects. Add new modules to expand the platform's coverage.
                 </p>
-                <button className="bg-slate-900 hover:bg-slate-800 text-white px-6 py-3 rounded-xl font-bold transition-colors shadow-sm">
+                <button className="bg-slate-900 hover:bg-slate-800 text-primary px-6 py-3 rounded-xl font-bold transition-colors shadow-sm">
                   Launch Visual Editor
                 </button>
               </div>
@@ -430,7 +430,7 @@ export function AdminDashboard({ onExit }: { onExit: () => void }) {
                       <label className="text-sm font-bold text-slate-700">OpenAI / Gemini API Key</label>
                       <div className="flex space-x-2">
                         <div className="relative flex-1">
-                          <Lock className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                          <Lock className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
                           <input 
                             type="password" 
                             value="************************" 
@@ -438,7 +438,7 @@ export function AdminDashboard({ onExit }: { onExit: () => void }) {
                             className="pl-9 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm w-full text-slate-500"
                           />
                         </div>
-                        <button className="px-4 py-2.5 bg-slate-900 text-white font-bold rounded-xl text-sm hover:bg-slate-800 transition-colors">
+                        <button className="px-4 py-2.5 bg-slate-900 text-primary font-bold rounded-xl text-sm hover:bg-slate-800 transition-colors">
                           Update
                         </button>
                       </div>
@@ -462,7 +462,7 @@ export function AdminDashboard({ onExit }: { onExit: () => void }) {
                 <UploadCloud className="w-6 h-6 text-indigo-600" />
                 <span>Add Questions to {selectedSystem} ({selectedSubject})</span>
               </h3>
-              <button onClick={() => setShowUploadModal(false)} className="text-slate-400 hover:text-slate-600">
+              <button onClick={() => setShowUploadModal(false)} className="text-muted hover:text-slate-600">
                 <Trash2 className="w-6 h-6" />
               </button>
             </div>
@@ -484,7 +484,7 @@ export function AdminDashboard({ onExit }: { onExit: () => void }) {
 
               <div className="flex items-center space-x-4">
                 <div className="flex-1 h-px bg-slate-200"></div>
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">OR ADD MANUALLY</span>
+                <span className="text-xs font-bold text-muted uppercase tracking-wider">OR ADD MANUALLY</span>
                 <div className="flex-1 h-px bg-slate-200"></div>
               </div>
 
@@ -548,7 +548,7 @@ export function AdminDashboard({ onExit }: { onExit: () => void }) {
               >
                 Cancel
               </button>
-              <button className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-sm transition-colors flex items-center space-x-2">
+              <button className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-primary font-bold rounded-xl shadow-sm transition-colors flex items-center space-x-2">
                 <Plus className="w-4 h-4" />
                 <span>Save Question</span>
               </button>

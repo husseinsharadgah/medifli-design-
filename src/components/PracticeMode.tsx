@@ -48,7 +48,7 @@ export function PracticeMode() {
           {/* Left Column: Modes */}
           <div className="lg:col-span-2 space-y-6">
             <h3 className="text-lg font-bold text-slate-900 flex items-center space-x-2">
-              <Settings2 className="w-5 h-5 text-slate-400" />
+              <Settings2 className="w-5 h-5 text-muted" />
               <span>1. Choose Practice Mode</span>
             </h3>
             
@@ -94,7 +94,7 @@ export function PracticeMode() {
                           : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300'
                       }`}
                     >
-                      <format.icon className={`w-4 h-4 ${selectedFormat === format.id ? 'text-indigo-600' : 'text-slate-400'}`} />
+                      <format.icon className={`w-4 h-4 ${selectedFormat === format.id ? 'text-indigo-600' : 'text-muted'}`} />
                       <span>{format.name}</span>
                     </button>
                   ))}
@@ -111,7 +111,7 @@ export function PracticeMode() {
                       onClick={() => setSelectedSubject(subject)}
                       className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${
                         selectedSubject === subject 
-                          ? 'bg-slate-900 text-white' 
+                          ? 'bg-slate-900 text-primary' 
                           : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                       }`}
                     >
@@ -167,7 +167,7 @@ export function PracticeMode() {
 
           {/* Right Column: Summary & Start */}
           <div className="space-y-6">
-            <div className="bg-indigo-600 rounded-2xl p-8 text-white shadow-lg sticky top-8">
+            <div className="bg-indigo-600 rounded-2xl p-8 text-primary shadow-lg sticky top-8">
               <h3 className="text-xl font-bold mb-6">Session Summary</h3>
               
               <div className="space-y-4 mb-8">

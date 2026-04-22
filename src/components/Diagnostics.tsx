@@ -62,7 +62,7 @@ export function Diagnostics() {
           <p className="text-slate-500">Real-time analysis of your cognitive patterns, retention rates, and micro-skills.</p>
         </div>
         <div className="text-right">
-          <p className="text-sm font-medium text-slate-400 uppercase tracking-wider mb-1">Engine Status</p>
+          <p className="text-sm font-medium text-muted uppercase tracking-wider mb-1">Engine Status</p>
           <div className="flex items-center space-x-2 text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-100">
             <Activity className="w-4 h-4 animate-pulse" />
             <span className="text-sm font-bold">Calibrated & Tracking</span>
@@ -87,7 +87,7 @@ export function Diagnostics() {
             <div>
               <p className="text-2xl font-bold text-slate-900">{kpi.value}</p>
               <p className="text-sm font-medium text-slate-500 mt-1">{kpi.label}</p>
-              <p className="text-xs text-slate-400 mt-2">{kpi.sub}</p>
+              <p className="text-xs text-muted mt-2">{kpi.sub}</p>
             </div>
           </div>
         ))}
@@ -96,7 +96,7 @@ export function Diagnostics() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* AI Behavioral Insights */}
         <div className="lg:col-span-2 space-y-6">
-          <div className="bg-slate-900 rounded-3xl p-8 text-white shadow-xl relative overflow-hidden">
+          <div className="bg-slate-900 rounded-3xl p-8 text-primary shadow-xl relative overflow-hidden">
             {/* Background decoration */}
             <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
             <div className="absolute bottom-0 left-0 -ml-16 -mb-16 w-64 h-64 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
@@ -119,8 +119,8 @@ export function Diagnostics() {
                   </div>
                   <div>
                     <h4 className="font-bold text-amber-100 mb-1">Hesitation Pattern Detected</h4>
-                    <p className="text-slate-300 text-sm leading-relaxed">
-                      You spend 40% more time on <span className="text-white font-medium">Geometry (Spatial Reasoning)</span> questions before selecting the correct answer. The adaptive engine will now inject more low-difficulty spatial questions to build your intuitive speed and confidence.
+                    <p className="text-secondary text-sm leading-relaxed">
+                      You spend 40% more time on <span className="text-primary font-medium">Geometry (Spatial Reasoning)</span> questions before selecting the correct answer. The adaptive engine will now inject more low-difficulty spatial questions to build your intuitive speed and confidence.
                     </p>
                   </div>
                 </div>
@@ -131,8 +131,8 @@ export function Diagnostics() {
                   </div>
                   <div>
                     <h4 className="font-bold text-rose-100 mb-1">Second-Guessing Anomaly</h4>
-                    <p className="text-slate-300 text-sm leading-relaxed">
-                      In the last 3 sessions, you changed your initial answer from correct to incorrect 6 times in <span className="text-white font-medium">Chemistry</span>. Trust your first instinct. We have flagged these specific question types for review.
+                    <p className="text-secondary text-sm leading-relaxed">
+                      In the last 3 sessions, you changed your initial answer from correct to incorrect 6 times in <span className="text-primary font-medium">Chemistry</span>. Trust your first instinct. We have flagged these specific question types for review.
                     </p>
                   </div>
                 </div>
@@ -143,8 +143,8 @@ export function Diagnostics() {
                   </div>
                   <div>
                     <h4 className="font-bold text-emerald-100 mb-1">Optimal Review Window Approaching</h4>
-                    <p className="text-slate-300 text-sm leading-relaxed">
-                      Your projected retention for <span className="text-white font-medium">Integration by Parts</span> is dropping below the 70% threshold tomorrow. A 10-minute targeted review has been automatically scheduled in your Smart Adaptive queue.
+                    <p className="text-secondary text-sm leading-relaxed">
+                      Your projected retention for <span className="text-primary font-medium">Integration by Parts</span> is dropping below the 70% threshold tomorrow. A 10-minute targeted review has been automatically scheduled in your Smart Adaptive queue.
                     </p>
                   </div>
                 </div>
@@ -212,7 +212,7 @@ export function Diagnostics() {
               </AreaChart>
             </ResponsiveContainer>
           </div>
-          <p className="text-xs text-slate-400 text-center mt-4">
+          <p className="text-xs text-muted text-center mt-4">
             <span className="text-rose-500 font-bold">---</span> Red dashed line indicates the 70% forgetting threshold where reviews are triggered.
           </p>
         </div>

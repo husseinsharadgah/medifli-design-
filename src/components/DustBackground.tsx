@@ -1,6 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 
-export function DustBackground() {
+interface DustBackgroundProps {
+  isLightMode?: boolean;
+}
+
+export function DustBackground({ isLightMode }: DustBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -36,6 +40,11 @@ export function DustBackground() {
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mouseout', handleMouseLeave);
     resize();
+
+    // Define colors relative to the theme
+    // Dark mode: light blue (186, 230, 253)
+    // Light mode: medifli blue (59, 130, 246)
+    const particleRGB = isLightMode ? '59, 130, 246' : '186, 230, 253';
 
     class Particle {
       x: number;
@@ -93,8 +102,8 @@ export function DustBackground() {
         
         // Creating a soft glowing dust particle
         const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size);
-        gradient.addColorStop(0, `rgba(186, 230, 253, ${this.opacity})`); // soft sky blue glow
-        gradient.addColorStop(1, `rgba(186, 230, 253, 0)`);
+        gradient.addColorStop(0, `rgba(${particleRGB}, ${this.opacity})`);
+        gradient.addColorStop(1, `rgba(${particleRGB}, 0)`);
         
         ctx.fillStyle = gradient;
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
@@ -127,7 +136,7 @@ export function DustBackground() {
         
         if (distance < mouse.radius) {
           ctx.beginPath();
-          ctx.strokeStyle = `rgba(186, 230, 253, ${0.15 * (1 - distance / mouse.radius)})`; // Dimmed from 0.4 to 0.15
+          ctx.strokeStyle = `rgba(${particleRGB}, ${0.15 * (1 - distance / mouse.radius)})`;
           ctx.lineWidth = 1;
           ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
           ctx.lineTo(mouse.x, mouse.y);
@@ -147,26 +156,29 @@ export function DustBackground() {
       window.removeEventListener('mouseout', handleMouseLeave);
       cancelAnimationFrame(animationFrameId);
     };
-  }, []);
+  }, [isLightMode]); // Re-run effect when theme changes to update canvas colors
 
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-      {/* Slow pulsing auroras for the classic PS5 menu feel */}
+    <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+      {/* Slow pulsing auroras - adjusted for visibility in light mode */}
       <div 
-        className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] rounded-full bg-blue-600/5 blur-[150px]"
+        className={`absolute top-[-20%] left-[-10%] w-[60%] h-[60%] rounded-full blur-[150px] transition-colors duration-1000 ${isLightMode ? 'bg-[#3B82F6]/10' : 'bg-blue-600/5'}`}
         style={{ animation: 'pulse 10s cubic-bezier(0.4, 0, 0.6, 1) infinite' }}
       ></div>
       <div 
-        className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-indigo-500/5 blur-[120px]"
+        className={`absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full blur-[120px] transition-colors duration-1000 ${isLightMode ? 'bg-indigo-500/10' : 'bg-indigo-500/5'}`}
         style={{ animation: 'pulse 12s cubic-bezier(0.4, 0, 0.6, 1) infinite 2s' }}
       ></div>
       <div 
-        className="absolute top-[20%] right-[30%] w-[40%] h-[40%] rounded-full bg-sky-400/5 blur-[120px]"
+        className={`absolute top-[20%] right-[30%] w-[40%] h-[40%] rounded-full blur-[120px] transition-colors duration-1000 ${isLightMode ? 'bg-sky-400/15' : 'bg-sky-400/5'}`}
         style={{ animation: 'pulse 15s cubic-bezier(0.4, 0, 0.6, 1) infinite 5s' }}
       ></div>
       
-      {/* Dynamic dust particles layer */}
-      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full opacity-[0.6] mix-blend-screen"></canvas>
+      {/* Dynamic dust particles layer - using mix-blend-multiply for light mode so particles darken the white background */}
+      <canvas 
+        ref={canvasRef} 
+        className={`absolute inset-0 w-full h-full opacity-[0.6] ${isLightMode ? 'mix-blend-multiply' : 'mix-blend-screen'}`}
+      ></canvas>
     </div>
   );
 }

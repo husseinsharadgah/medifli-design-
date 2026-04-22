@@ -159,7 +159,7 @@ export function QuizInterface({ onExit }: { onExit: () => void }) {
               }`}
             >
               <div className={`w-7 h-7 shrink-0 rounded-full border-2 flex items-center justify-center text-sm font-bold mt-0.5 ${
-                isSelected ? 'border-indigo-600 bg-indigo-600 text-white' : 'border-slate-300 text-slate-500'
+                isSelected ? 'border-indigo-600 bg-indigo-600 text-primary' : 'border-slate-300 text-slate-500'
               }`}>
                 {String.fromCharCode(65 + idx)}
               </div>
@@ -225,7 +225,7 @@ export function QuizInterface({ onExit }: { onExit: () => void }) {
                 }`}
               >
                 <div className={`w-6 h-6 shrink-0 rounded-full border-2 flex items-center justify-center text-xs font-bold mt-0.5 ${
-                  isSelected ? 'border-indigo-600 bg-indigo-600 text-white' : 'border-slate-300 text-slate-500'
+                  isSelected ? 'border-indigo-600 bg-indigo-600 text-primary' : 'border-slate-300 text-slate-500'
                 }`}>
                   {String.fromCharCode(65 + idx)}
                 </div>
@@ -249,7 +249,7 @@ export function QuizInterface({ onExit }: { onExit: () => void }) {
           className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
           referrerPolicy="no-referrer"
         />
-        <button className="absolute top-4 right-4 bg-black/50 hover:bg-black/70 text-white p-2 rounded-lg backdrop-blur-sm transition-colors flex items-center space-x-2">
+        <button className="absolute top-4 right-4 bg-black/50 hover:bg-black/70 text-primary p-2 rounded-lg backdrop-blur-sm transition-colors flex items-center space-x-2">
           <Maximize2 className="w-4 h-4" />
           <span className="text-sm font-medium">Expand</span>
         </button>
@@ -273,7 +273,7 @@ export function QuizInterface({ onExit }: { onExit: () => void }) {
                 }`}
               >
                 <div className={`w-6 h-6 shrink-0 rounded-full border-2 flex items-center justify-center text-xs font-bold mt-0.5 ${
-                  isSelected ? 'border-indigo-600 bg-indigo-600 text-white' : 'border-slate-300 text-slate-500'
+                  isSelected ? 'border-indigo-600 bg-indigo-600 text-primary' : 'border-slate-300 text-slate-500'
                 }`}>
                   {String.fromCharCode(65 + idx)}
                 </div>
@@ -299,7 +299,7 @@ export function QuizInterface({ onExit }: { onExit: () => void }) {
             value={answers[question.id] || ''}
             onChange={handleFillInChange}
             placeholder="type answer..."
-            className="mx-3 border-b-2 border-slate-300 focus:border-indigo-600 outline-none text-center text-indigo-600 bg-transparent w-48 md:w-64 transition-colors placeholder:text-slate-300 pb-1"
+            className="mx-3 border-b-2 border-slate-300 focus:border-indigo-600 outline-none text-center text-indigo-600 bg-transparent w-48 md:w-64 transition-colors placeholder:text-secondary pb-1"
             autoFocus
           />
           {parts[1]}
@@ -318,15 +318,15 @@ export function QuizInterface({ onExit }: { onExit: () => void }) {
           
           {/* Front */}
           <div className="absolute inset-0 backface-hidden bg-white border-2 border-slate-200 rounded-3xl p-8 md:p-12 flex flex-col items-center justify-center text-center shadow-sm group-hover:border-indigo-300 transition-colors">
-            <span className="absolute top-6 left-6 text-xs font-bold text-slate-400 uppercase tracking-wider">Front</span>
+            <span className="absolute top-6 left-6 text-xs font-bold text-muted uppercase tracking-wider">Front</span>
             <h2 className="text-2xl md:text-3xl font-medium text-slate-900 leading-relaxed">
               {question.text}
             </h2>
-            <p className="absolute bottom-6 text-sm text-slate-400 font-medium animate-pulse">Click to flip</p>
+            <p className="absolute bottom-6 text-sm text-muted font-medium animate-pulse">Click to flip</p>
           </div>
 
           {/* Back */}
-          <div className="absolute inset-0 backface-hidden bg-indigo-600 border-2 border-indigo-600 rounded-3xl p-8 md:p-12 flex flex-col items-center justify-center text-center shadow-lg rotate-y-180 text-white">
+          <div className="absolute inset-0 backface-hidden bg-indigo-600 border-2 border-indigo-600 rounded-3xl p-8 md:p-12 flex flex-col items-center justify-center text-center shadow-lg rotate-y-180 text-primary">
             <span className="absolute top-6 left-6 text-xs font-bold text-indigo-300 uppercase tracking-wider">Back</span>
             <p className="text-xl md:text-2xl font-medium leading-relaxed">
               {question.flashcardAnswer}
@@ -384,7 +384,7 @@ export function QuizInterface({ onExit }: { onExit: () => void }) {
           </button>
           <div className="h-6 w-px bg-slate-200 hidden md:block"></div>
           <div className="hidden md:flex flex-col">
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Block 1</span>
+            <span className="text-xs font-bold text-muted uppercase tracking-wider">Block 1</span>
             <span className="text-sm font-bold text-slate-900">Cardiovascular System</span>
           </div>
         </div>
@@ -419,7 +419,7 @@ export function QuizInterface({ onExit }: { onExit: () => void }) {
         <div className={`absolute inset-y-0 left-0 w-72 bg-white border-r border-slate-200 shadow-2xl z-30 transform transition-transform duration-300 ease-in-out flex flex-col ${showGrid ? 'translate-x-0' : '-translate-x-full'}`}>
           <div className="p-4 border-b border-slate-100 flex items-center justify-between">
             <h3 className="font-bold text-slate-900">Question Navigator</h3>
-            <button onClick={() => setShowGrid(false)} className="p-1 text-slate-400 hover:text-slate-900 rounded-md">
+            <button onClick={() => setShowGrid(false)} className="p-1 text-muted hover:text-slate-900 rounded-md">
               <X className="w-5 h-5" />
             </button>
           </div>
@@ -461,7 +461,7 @@ export function QuizInterface({ onExit }: { onExit: () => void }) {
           {isPaused ? (
             <div className="h-full flex flex-col items-center justify-center text-center space-y-6">
               <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center">
-                <Pause className="w-10 h-10 text-slate-400" />
+                <Pause className="w-10 h-10 text-muted" />
               </div>
               <div>
                 <h2 className="text-2xl font-bold text-slate-900">Block Paused</h2>
@@ -469,7 +469,7 @@ export function QuizInterface({ onExit }: { onExit: () => void }) {
               </div>
               <button 
                 onClick={() => setIsPaused(false)}
-                className="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-sm transition-colors"
+                className="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-primary font-bold rounded-xl shadow-sm transition-colors"
               >
                 Resume Block
               </button>
@@ -480,7 +480,7 @@ export function QuizInterface({ onExit }: { onExit: () => void }) {
               <div className="flex items-center justify-between mb-8 shrink-0">
                 <div className="flex items-center space-x-4">
                   <span className="text-lg font-bold text-slate-900">Question {currentIndex + 1}</span>
-                  <span className="text-sm font-medium text-slate-400">of {mockQuestions.length}</span>
+                  <span className="text-sm font-medium text-muted">of {mockQuestions.length}</span>
                   <span className="px-2.5 py-1 bg-slate-100 text-slate-600 text-xs font-bold rounded-md uppercase tracking-wider">
                     {question.type}
                   </span>
@@ -530,13 +530,13 @@ export function QuizInterface({ onExit }: { onExit: () => void }) {
               style={{ width: `${((currentIndex + 1) / mockQuestions.length) * 100}%` }}
             ></div>
           </div>
-          <span className="text-xs font-bold text-slate-400">{Math.round(((currentIndex + 1) / mockQuestions.length) * 100)}%</span>
+          <span className="text-xs font-bold text-muted">{Math.round(((currentIndex + 1) / mockQuestions.length) * 100)}%</span>
         </div>
 
         <button 
           onClick={goToNext}
           disabled={currentIndex === mockQuestions.length - 1 || isPaused}
-          className="flex items-center space-x-2 px-5 py-2.5 rounded-xl font-bold text-white bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm"
+          className="flex items-center space-x-2 px-5 py-2.5 rounded-xl font-bold text-primary bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm"
         >
           <span className="hidden md:inline">Next</span>
           <ChevronRight className="w-5 h-5" />

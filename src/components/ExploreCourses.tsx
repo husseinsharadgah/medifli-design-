@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Search, Filter, BookOpen, Clock, User, Star, ChevronRight, PlayCircle, Building2, ChevronDown } from 'lucide-react';
+import { InstructorProfile } from './InstructorProfile';
 
 const universities = [
   { id: 'All', name: 'All Universities', short: 'ALL' },
@@ -173,6 +174,8 @@ export function ExploreCourses() {
   const [activeCategory, setActiveCategory] = useState('All');
   const [selectedUni, setSelectedUni] = useState('All');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  
+  const [selectedInstructor, setSelectedInstructor] = useState<string | null>(null);
 
   // Filter logic
   const filteredCourses = COURSES.filter(course => {
@@ -198,12 +201,12 @@ export function ExploreCourses() {
     <div className="max-w-[1600px] mx-auto space-y-10 pb-12 font-sans">
       
       {/* Header and Search */}
-      <header className="flex flex-col lg:flex-row lg:justify-between lg:items-end gap-6 pb-4 border-b border-[#1e293b] relative z-50">
+      <header className="flex flex-col lg:flex-row lg:justify-between lg:items-end gap-6 pb-4 border-b border-divider relative z-50">
         <div>
-          <h2 className="text-4xl font-black text-white tracking-widest uppercase mb-2">
+          <h2 className="text-4xl font-black text-primary tracking-widest uppercase mb-2">
             Explore Courses
           </h2>
-          <p className="text-slate-400 text-sm">
+          <p className="text-muted text-sm">
             Discover new modules, specialities, and expand your medical knowledge.
           </p>
         </div>
@@ -217,11 +220,11 @@ export function ExploreCourses() {
               className={`w-full sm:w-auto h-[46px] flex items-center justify-between space-x-3 px-5 rounded-xl border text-sm font-bold transition-all cursor-pointer ${
                 selectedUni !== 'All' 
                   ? 'bg-purple-500/20 border-purple-500 text-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.15)]' 
-                  : 'bg-[#131B2F] border-[#1e293b] text-slate-300 hover:border-slate-500'
+                  : 'bg-surface border-divider text-secondary hover:border-slate-500'
               }`}
             >
               <div className="flex items-center space-x-2">
-                <Building2 className={`w-4 h-4 ${selectedUni !== 'All' ? 'text-purple-400' : 'text-slate-400'}`} />
+                <Building2 className={`w-4 h-4 ${selectedUni !== 'All' ? 'text-purple-400' : 'text-muted'}`} />
                 <span className="whitespace-nowrap">{currentUniName}</span>
               </div>
               <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
@@ -234,7 +237,7 @@ export function ExploreCourses() {
 
             {/* Dropdown Menu */}
             {isDropdownOpen && (
-              <div className="absolute top-full lg:right-0 mt-2 w-full sm:w-[320px] bg-[#0B0F19] border border-[#1e293b] rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.5)] z-40 overflow-hidden outline outline-1 outline-white/5">
+              <div className="absolute top-full lg:right-0 mt-2 w-full sm:w-[320px] bg-base border border-divider rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.5)] z-40 overflow-hidden outline outline-1 outline-white/5">
                 <div className="py-2">
                   {universities.map(uni => (
                     <button
@@ -243,18 +246,18 @@ export function ExploreCourses() {
                         setSelectedUni(uni.id);
                         setIsDropdownOpen(false);
                       }}
-                      className={`w-full text-left flex items-center space-x-3 px-4 py-3 text-sm font-bold transition-all cursor-pointer hover:bg-[#1e293b]/50 ${
+                      className={`w-full text-left flex items-center space-x-3 px-4 py-3 text-sm font-bold transition-all cursor-pointer hover:bg-surface-hover/50 ${
                         selectedUni === uni.id 
                           ? 'text-purple-400 bg-purple-500/10' 
-                          : 'text-slate-400 hover:text-slate-200'
+                          : 'text-muted hover:text-slate-200'
                       }`}
                     >
                       {uni.id !== 'All' ? (
-                        <div className={`p-1.5 rounded-lg shrink-0 ${selectedUni === uni.id ? 'bg-purple-500/20' : 'bg-[#131B2F]'}`}>
+                        <div className={`p-1.5 rounded-lg shrink-0 ${selectedUni === uni.id ? 'bg-purple-500/20' : 'bg-surface'}`}>
                           <Building2 className="w-3.5 h-3.5" />
                         </div>
                       ) : (
-                        <div className={`p-1.5 rounded-lg shrink-0 ${selectedUni === uni.id ? 'bg-purple-500/20' : 'bg-[#131B2F]'}`}>
+                        <div className={`p-1.5 rounded-lg shrink-0 ${selectedUni === uni.id ? 'bg-purple-500/20' : 'bg-surface'}`}>
                           <BookOpen className="w-3.5 h-3.5" />
                         </div>
                       )}
@@ -267,13 +270,13 @@ export function ExploreCourses() {
           </div>
 
           <div className="relative flex-1 lg:w-80 h-[46px]">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
+            <Search className="w-4 h-4 text-muted absolute left-3 top-1/2 transform -translate-y-1/2" />
             <input 
               type="text" 
               placeholder="Search courses, instructors..." 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full h-full bg-[#131B2F] border border-[#1e293b] text-sm text-slate-200 rounded-xl pl-10 pr-4 focus:outline-none focus:border-[#3B82F6] transition-colors shadow-inner"
+              className="w-full h-full bg-surface border border-divider text-sm text-slate-200 rounded-xl pl-10 pr-4 focus:outline-none focus:border-[#3B82F6] transition-colors shadow-inner"
             />
           </div>
         </div>
@@ -287,8 +290,8 @@ export function ExploreCourses() {
             onClick={() => setActiveCategory(category)}
             className={`whitespace-nowrap px-5 py-2 rounded-full text-sm font-bold tracking-wide transition-colors cursor-pointer border ${
               activeCategory === category 
-                ? 'bg-blue-500 text-white border-blue-500 shadow-lg shadow-blue-500/20' 
-                : 'bg-[#131B2F] text-slate-400 border-[#1e293b] hover:border-slate-500 hover:text-slate-200'
+                ? 'bg-blue-500 text-primary border-blue-500 shadow-lg shadow-blue-500/20' 
+                : 'bg-surface text-muted border-divider hover:border-slate-500 hover:text-slate-200'
             }`}
           >
             {category}
@@ -299,52 +302,76 @@ export function ExploreCourses() {
       {/* Courses Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-8">
         {filteredCourses.map(course => (
-          <div key={course.id} className="group relative overflow-hidden rounded-2xl border border-[#1e293b] bg-[#131B2F] cursor-pointer h-[400px] shadow-md hover:shadow-xl hover:shadow-blue-500/10 transition-all duration-300 flex flex-col">
+          <div key={course.id} className="group relative overflow-hidden rounded-2xl border border-divider bg-surface cursor-pointer h-[400px] shadow-md hover:shadow-xl hover:shadow-blue-500/10 transition-all duration-300 flex flex-col">
             
             {/* BASE CARD VIEW */}
             <div className="relative h-56 overflow-hidden flex-shrink-0">
                {/* Ambient overlay to darken the picture slightly for text readability */}
-               <div className="absolute inset-0 bg-gradient-to-t from-[#131B2F] via-transparent to-transparent z-10"></div>
+               <div className="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent z-10"></div>
                <img 
                  src={course.image} 
                  alt={course.title} 
                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out" 
                  referrerPolicy="no-referrer" 
                />
-               <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-md text-white text-[10px] font-black px-3 py-1.5 rounded-full uppercase tracking-widest z-20 border border-white/10 shadow-lg">
+               <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-md text-primary text-[10px] font-black px-3 py-1.5 rounded-full uppercase tracking-widest z-20 border border-white/10 shadow-lg">
                  {course.category}
                </div>
                
                {/* University Bubble Tag */}
-               <div className="absolute top-4 left-4 bg-[#131B2F]/80 backdrop-blur-md text-slate-300 text-[10px] font-bold px-2.5 py-1 rounded-md uppercase tracking-wider z-20 border border-white/10 shadow-lg flex items-center space-x-1">
+               <div className="absolute top-4 left-4 bg-surface/80 backdrop-blur-md text-secondary text-[10px] font-bold px-2.5 py-1 rounded-md uppercase tracking-wider z-20 border border-white/10 shadow-lg flex items-center space-x-1">
                  <Building2 className="w-3 h-3 text-purple-400" />
                  <span>{course.uniShort}</span>
                </div>
             </div>
             
-            <div className="p-6 flex-1 flex flex-col justify-center relative z-10 bg-[#131B2F]">
-              <h3 className="text-xl font-bold text-white mb-2 leading-tight line-clamp-2">{course.title}</h3>
-              <div className="flex items-center text-slate-400 text-sm mt-auto space-x-2">
+            <div className="p-6 flex-1 flex flex-col justify-center relative z-10 bg-surface">
+              <h3 className="text-xl font-bold text-primary mb-2 leading-tight line-clamp-2">{course.title}</h3>
+              <div className="flex items-center text-muted text-sm mt-auto space-x-2">
                 <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
-                <span className="font-bold text-slate-300">{course.rating}</span>
+                <span className="font-bold text-secondary">{course.rating}</span>
                 <span>•</span>
-                <span className="italic">{course.instructor}</span>
+                <span 
+                  className="italic cursor-pointer transition-all hover:bg-[#3B82F6]/20 hover:text-[#3B82F6] px-2.5 py-1 rounded-lg -ml-2.5 hover:shadow-[0_0_10px_rgba(59,130,246,0.2)] hover:-translate-y-0.5 active:scale-95"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedInstructor(course.instructor);
+                  }}
+                >
+                  {course.instructor}
+                </span>
               </div>
             </div>
 
             {/* HOVER OVERLAY (Slides up from the bottom to cover the entire card) */}
-            <div className="absolute inset-0 bg-[#0B0F19]/95 backdrop-blur-xl p-6 flex flex-col translate-y-[101%] group-hover:translate-y-0 transition-transform duration-300 ease-in-out z-30">
+            <div className="absolute inset-0 bg-base/95 backdrop-blur-xl p-6 flex flex-col translate-y-[101%] group-hover:translate-y-0 transition-transform duration-300 ease-in-out z-30">
               
-              <h4 className="text-lg font-black text-white mb-4 border-b border-[#1e293b]/80 pb-2 flex-shrink-0">Course Details</h4>
+              <h4 className="text-lg font-black text-primary mb-4 border-b border-divider/80 pb-2 flex-shrink-0">Course Details</h4>
 
               {/* Meta / Instructor Info */}
               <div className="flex items-center space-x-3 mb-6 flex-shrink-0">
-                 <div className="w-10 h-10 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center font-black border border-blue-500/30">
-                   {getInitials(course.instructor)}
+                 <div className="w-10 h-10 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center font-black border border-blue-500/30 overflow-hidden">
+                    <img 
+                      src={`https://ui-avatars.com/api/?name=${encodeURIComponent(course.instructor)}&background=3B82F6&color=fff&bold=true`} 
+                      alt=""
+                      className="w-full h-full object-cover cursor-pointer hover:opacity-80 transition-opacity"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedInstructor(course.instructor);
+                      }}
+                    />
                  </div>
                  <div>
-                    <p className="text-sm font-bold text-white leading-tight">{course.instructor}</p>
-                    <div className="flex items-center space-x-2 text-[11px] text-slate-400 mt-1 uppercase tracking-wider font-bold">
+                    <p 
+                      className="text-sm font-bold text-primary leading-tight cursor-pointer transition-all hover:bg-[#3B82F6]/20 hover:text-[#3B82F6] px-3 py-1.5 rounded-lg -ml-3 hover:shadow-[0_0_10px_rgba(59,130,246,0.2)] hover:-translate-y-0.5 active:scale-95 w-fit"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedInstructor(course.instructor);
+                      }}
+                    >
+                      {course.instructor}
+                    </p>
+                    <div className="flex items-center space-x-2 text-[11px] text-muted mt-1 uppercase tracking-wider font-bold">
                       <BookOpen className="w-3 h-3 text-slate-500" />
                       <span>{course.lectures} Lectures</span>
                       <span className="text-slate-600">•</span>
@@ -359,9 +386,9 @@ export function ExploreCourses() {
                 <p className="text-[10px] uppercase tracking-widest text-[#3B82F6] font-black mb-3">Curriculum Preview</p>
                 <ul className="space-y-3">
                   {course.modules.map((mod, i) => (
-                    <li key={i} className="flex items-start space-x-3 text-sm text-slate-300 group/item">
+                    <li key={i} className="flex items-start space-x-3 text-sm text-secondary group/item">
                        <PlayCircle className="w-4 h-4 text-slate-500 group-hover/item:text-emerald-400 flex-shrink-0 mt-0.5 transition-colors" />
-                       <span className="line-clamp-2 leading-snug group-hover/item:text-white transition-colors">{mod}</span>
+                       <span className="line-clamp-2 leading-snug group-hover/item:text-primary transition-colors">{mod}</span>
                     </li>
                   ))}
                 </ul>
@@ -379,14 +406,20 @@ export function ExploreCourses() {
 
         {filteredCourses.length === 0 && (
           <div className="col-span-full py-20 text-center">
-            <div className="w-20 h-20 bg-[#1e293b] rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="w-20 h-20 bg-surface-hover rounded-full flex items-center justify-center mx-auto mb-4">
               <Search className="w-10 h-10 text-slate-500" />
             </div>
-            <h3 className="text-2xl font-bold text-white mb-2">No courses found</h3>
-            <p className="text-slate-400">Try adjusting your search or category filters.</p>
+            <h3 className="text-2xl font-bold text-primary mb-2">No courses found</h3>
+            <p className="text-muted">Try adjusting your search or category filters.</p>
           </div>
         )}
       </div>
+
+      <InstructorProfile 
+        instructorName={selectedInstructor || ''} 
+        isOpen={!!selectedInstructor} 
+        onClose={() => setSelectedInstructor(null)} 
+      />
 
     </div>
   );
