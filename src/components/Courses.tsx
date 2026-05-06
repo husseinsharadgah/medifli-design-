@@ -58,7 +58,7 @@ const activeCourses = [
     bg: 'bg-emerald-400/10',
     university: 'Yarmouk University',
     uniShort: 'YU',
-    image: 'https://images.unsplash.com/photo-1584308666744-24d5e4a4bed9?auto=format&fit=crop&q=80&w=600&h=400',
+    image: 'https://images.unsplash.com/photo-1631815587646-b85a1bb027af?auto=format&fit=crop&q=80&w=600&h=400',
     category: 'Pharmacology'
   },
   {

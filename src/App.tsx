@@ -122,7 +122,7 @@ export default function App() {
   }
 
   if (appMode === 'admin') {
-    return <AdminDashboard onExit={() => setAppMode('portal')} />;
+    return <AdminDashboard onExit={() => setAppMode('portal')} isLightMode={isLightMode} toggleLightMode={() => setIsLightMode(!isLightMode)} />;
   }
 
   const renderView = () => {

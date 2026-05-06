@@ -53,15 +53,29 @@ const QUIZ_MODES = [
 const ENROLLED_COURSES = {
   "neuro": {
     name: "Clinical Neuroanatomy",
-    modules: ["All Modules", "Cerebral Hemispheres", "Basal Ganglia", "Brainstem", "Spinal Cord"]
+    modules: {
+      "Cerebral Hemispheres": ["Frontal Lobe", "Parietal Lobe", "Temporal Lobe", "Occipital Lobe"],
+      "Basal Ganglia": ["Striatum", "Globus Pallidus", "Subthalamic Nucleus", "Substantia Nigra"],
+      "Brainstem": ["Midbrain", "Pons", "Medulla"],
+      "Spinal Cord": ["Ascending Tracts", "Descending Tracts", "Spinal Nerves"]
+    }
   },
   "surgery": {
     name: "Surgical Pathophysiology",
-    modules: ["All Modules", "Fluid Management", "Bleeding & Transfusion", "Wound Healing"]
+    modules: {
+      "Fluid Management": ["Crystalloids vs Colloids", "Maintenance Fluids", "Fluid Resuscitation"],
+      "Bleeding & Transfusion": ["Blood Products", "Massive Transfusion Protocol", "Coagulopathy"],
+      "Wound Healing": ["Phases of Healing", "Types of Closure", "Complications"]
+    }
   },
   "cardio": {
     name: "Advanced Cardiovascular Medicine",
-    modules: ["All Modules", "ECG Mastery", "Heart Failure", "Valvular Disease", "Arrhythmias"]
+    modules: {
+      "ECG Mastery": ["Normal Sinus Rhythm", "Bradyarrhythmias", "Tachyarrhythmias", "Ischemia and Infarction"],
+      "Heart Failure": ["HFrEF", "HFpEF", "Acute Decompensated Heart Failure"],
+      "Valvular Disease": ["Aortic Stenosis", "Mitral Regurgitation", "Aortic Regurgitation", "Mitral Stenosis"],
+      "Arrhythmias": ["Atrial Fibrillation", "Ventricular Tachycardia", "SVT"]
+    }
   }
 };
 
@@ -73,12 +87,16 @@ export function Quizzes() {
   const [frozenState, setFrozenState] = useState<ExamState | null>(null);
 
   // Tuning State
+  const [setupStep, setSetupStep] = useState<number>(1);
+  const [quizScope, setQuizScope] = useState<'course' | 'module' | 'lecture'>('course');
   const [selectedCourse, setSelectedCourse] = useState<string>("neuro");
-  const [selectedModule, setSelectedModule] = useState<string>("All Modules");
+  const [selectedModule, setSelectedModule] = useState<string>("Cerebral Hemispheres");
+  const [selectedLecture, setSelectedLecture] = useState<string>("Frontal Lobe");
   const [difficulty, setDifficulty] = useState<string>("Mixed");
   const [questionCount, setQuestionCount] = useState<string>("20");
   const [timerMode, setTimerMode] = useState<string>("Untimed");
   const [tutorMode, setTutorMode] = useState<boolean>(true);
+  const [examNavigation, setExamNavigation] = useState<string>("One Way");
 
   if (isExamRunning) {
     return (
@@ -135,165 +153,501 @@ export function Quizzes() {
           </div>
         </div>
 
-        {/* Tuning Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-          
-          {/* Target Selection */}
-          <div className="space-y-6 bg-surface border border-divider p-6 rounded-3xl">
-            <h3 className="text-primary font-bold tracking-wide uppercase flex items-center space-x-2 mb-6">
-              <Target className="w-5 h-5 text-blue-400" />
-              <span>Target Selection</span>
-            </h3>
-
-            <div className="space-y-4">
-              <div>
-                <label className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 flex items-center space-x-2">
-                  <BookOpen className="w-3.5 h-3.5" />
-                  <span>Enrolled Course</span>
-                </label>
-                <select 
-                  value={selectedCourse}
-                  onChange={(e) => {
-                    setSelectedCourse(e.target.value);
-                    setSelectedModule(ENROLLED_COURSES[e.target.value as keyof typeof ENROLLED_COURSES].modules[0]);
-                  }}
-                  className="w-full bg-base border border-divider text-primary rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500 transition-colors appearance-none cursor-pointer"
-                >
-                  {Object.entries(ENROLLED_COURSES).map(([key, course]) => (
-                    <option key={key} value={key}>{course.name}</option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 flex items-center space-x-2 mt-4">
-                  <Layers className="w-3.5 h-3.5" />
-                  <span>Specific Module</span>
-                </label>
-                <select 
-                  value={selectedModule}
-                  onChange={(e) => setSelectedModule(e.target.value)}
-                  className="w-full bg-base border border-divider text-primary rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500 transition-colors appearance-none cursor-pointer"
-                >
-                  {currentCourse.modules.map((mod) => (
-                    <option key={mod} value={mod}>{mod}</option>
-                  ))}
-                </select>
-              </div>
+        {/* Tuning Area */}
+        {activeMode === 'past-papers' ? (
+          <div className="space-y-6">
+            {/* Wizard Progress */}
+            <div className="flex items-center space-x-4 mb-8">
+              {[1, 2, 3].map(step => (
+                <React.Fragment key={step}>
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm ${
+                    setupStep === step ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/30' : 
+                    setupStep > step ? 'bg-emerald-500 text-white' : 'bg-surface border border-divider text-muted'
+                  }`}>
+                    {setupStep > step ? <Target className="w-4 h-4" /> : step}
+                  </div>
+                  {step < 3 && (
+                    <div className={`flex-1 h-1 rounded-full ${setupStep > step ? 'bg-emerald-500' : 'bg-surface border border-divider'}`} />
+                  )}
+                </React.Fragment>
+              ))}
             </div>
-          </div>
 
-          {/* Parameters */}
-          <div className="space-y-6 bg-surface border border-divider p-6 rounded-3xl">
-            <h3 className="text-primary font-bold tracking-wide uppercase flex items-center space-x-2 mb-6">
-              <Settings2 className="w-5 h-5 text-emerald-400" />
-              <span>Session Parameters</span>
-            </h3>
+            {/* Step 1: Target Selection */}
+            {setupStep === 1 && (
+              <div className="space-y-6 max-w-xl mx-auto animation-fade-in">
+                <div className="space-y-6 bg-surface border border-divider p-8 rounded-3xl shadow-lg">
+                  <h3 className="text-primary font-bold tracking-wide uppercase flex items-center space-x-2 mb-8">
+                    <Target className="w-5 h-5 text-blue-400" />
+                    <span>Target Selection</span>
+                  </h3>
+                  <div className="space-y-6">
+                    <div>
+                      <label className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3 flex items-center space-x-2">
+                        <Target className="w-3.5 h-3.5" />
+                        <span>Quiz Scope</span>
+                      </label>
+                      <div className="grid grid-cols-3 gap-3 mb-6">
+                        {[
+                          { id: 'course', label: 'Full Course' },
+                          { id: 'module', label: 'Specific Module' },
+                          { id: 'lecture', label: 'Specific Lecture' }
+                        ].map(scope => (
+                          <button
+                            key={scope.id}
+                            onClick={() => {
+                              setQuizScope(scope.id as 'course' | 'module' | 'lecture');
+                            }}
+                            className={`py-3 px-2 rounded-xl text-[10px] sm:text-xs font-bold tracking-wide transition-all border ${
+                              quizScope === scope.id 
+                                ? 'bg-blue-500/20 text-blue-400 border-blue-500/50 shadow-md shadow-blue-500/10' 
+                                : 'bg-base text-muted border-divider hover:border-slate-600'
+                            }`}
+                          >
+                            {scope.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
 
-            {/* Difficulty */}
-            <div className="mb-6">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3 flex items-center space-x-2">
-                <Activity className="w-3.5 h-3.5" />
-                <span>Difficulty Level</span>
-              </label>
-              <div className="grid grid-cols-4 gap-2">
-                {['Easy', 'Medium', 'Hard', 'Mixed'].map(lvl => (
-                  <button
-                    key={lvl}
-                    onClick={() => setDifficulty(lvl)}
-                    className={`py-2 px-1 rounded-lg text-xs font-bold tracking-wide transition-all border ${
-                      difficulty === lvl 
-                        ? 'bg-blue-500/20 text-blue-400 border-blue-500/50' 
-                        : 'bg-base text-muted border-divider hover:border-slate-600'
-                    }`}
-                  >
-                    {lvl}
+                    <div>
+                      <label className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3 flex items-center space-x-2">
+                        <BookOpen className="w-3.5 h-3.5" />
+                        <span>Enrolled Course</span>
+                      </label>
+                      <select 
+                        value={selectedCourse}
+                        onChange={(e) => {
+                          const courseKey = e.target.value as keyof typeof ENROLLED_COURSES;
+                          setSelectedCourse(courseKey);
+                          const firstModule = Object.keys(ENROLLED_COURSES[courseKey].modules)[0];
+                          setSelectedModule(firstModule);
+                          setSelectedLecture(ENROLLED_COURSES[courseKey].modules[firstModule as keyof typeof ENROLLED_COURSES[typeof courseKey]["modules"]][0]);
+                        }}
+                        className="w-full bg-base border border-divider text-primary rounded-xl px-4 py-4 focus:outline-none focus:border-blue-500 transition-colors appearance-none cursor-pointer"
+                      >
+                        {Object.entries(ENROLLED_COURSES).map(([key, course]) => (
+                          <option key={key} value={key}>{course.name}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {(quizScope === 'module' || quizScope === 'lecture') && (
+                      <div className="animation-fade-in">
+                        <label className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3 flex items-center space-x-2 mt-4">
+                          <Layers className="w-3.5 h-3.5" />
+                          <span>Specific Module</span>
+                        </label>
+                        <select 
+                          value={selectedModule}
+                          onChange={(e) => {
+                             setSelectedModule(e.target.value);
+                             const courseObj = ENROLLED_COURSES[selectedCourse as keyof typeof ENROLLED_COURSES];
+                             const modLectures = courseObj.modules[e.target.value as keyof typeof courseObj.modules] || [];
+                             if (modLectures.length > 0) setSelectedLecture(modLectures[0]);
+                          }}
+                          className="w-full bg-base border border-divider text-primary rounded-xl px-4 py-4 focus:outline-none focus:border-blue-500 transition-colors appearance-none cursor-pointer"
+                        >
+                          {Object.keys(currentCourse.modules).map((mod) => (
+                            <option key={mod} value={mod}>{mod}</option>
+                          ))}
+                        </select>
+                      </div>
+                    )}
+
+                    {quizScope === 'lecture' && (
+                      <div className="animation-fade-in">
+                        <label className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3 flex items-center space-x-2 mt-4">
+                          <FileText className="w-3.5 h-3.5" />
+                          <span>Specific Lecture</span>
+                        </label>
+                        <select 
+                          value={selectedLecture}
+                          onChange={(e) => setSelectedLecture(e.target.value)}
+                          className="w-full bg-base border border-divider text-primary rounded-xl px-4 py-4 focus:outline-none focus:border-blue-500 transition-colors appearance-none cursor-pointer"
+                        >
+                          {(currentCourse.modules[selectedModule as keyof typeof currentCourse.modules] || []).map((lec: string) => (
+                            <option key={lec} value={lec}>{lec}</option>
+                          ))}
+                        </select>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <div className="flex justify-end pt-4">
+                  <button onClick={() => setSetupStep(2)} className="bg-blue-500 text-white hover:bg-blue-600 px-8 py-3 rounded-xl font-bold uppercase tracking-widest transition-all flex items-center space-x-2 active:scale-95 shadow-lg shadow-blue-500/20">
+                    <span>Next Step</span>
+                    <ChevronRight className="w-5 h-5" />
                   </button>
-                ))}
+                </div>
               </div>
-            </div>
+            )}
 
-            {/* Questions amount */}
-            <div>
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3 flex items-center space-x-2">
-                <Hash className="w-3.5 h-3.5" />
-                <span>Number of Questions</span>
-              </label>
-              <div className="grid grid-cols-4 gap-2">
-                {['10', '20', '40', 'Endless'].map(count => (
-                  <button
-                    key={count}
-                    onClick={() => setQuestionCount(count)}
-                    className={`py-2 px-1 rounded-lg text-xs font-bold tracking-wide transition-all border ${
-                      questionCount === count 
-                        ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/50' 
-                        : 'bg-base text-muted border-divider hover:border-slate-600'
-                    }`}
-                  >
-                    {count}
+            {/* Step 2: Parameters & Environment */}
+            {setupStep === 2 && (
+              <div className="space-y-6 max-w-2xl mx-auto animation-fade-in">
+                <div className="space-y-8 bg-surface border border-divider p-8 rounded-3xl shadow-lg">
+                  <div>
+                    <h3 className="text-primary font-bold tracking-wide uppercase flex items-center space-x-2 mb-6">
+                      <Settings2 className="w-5 h-5 text-emerald-400" />
+                      <span>Session Parameters</span>
+                    </h3>
+                    <div className="space-y-6">
+                      <div>
+                        <label className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3 flex items-center space-x-2">
+                          <Activity className="w-3.5 h-3.5" />
+                          <span>Exam Navigation</span>
+                        </label>
+                        <div className="grid grid-cols-2 gap-3">
+                          {['One Way', 'Two Way'].map(nav => (
+                            <button
+                              key={nav}
+                              onClick={() => setExamNavigation(nav)}
+                              className={`py-3 px-2 rounded-xl text-xs font-bold tracking-wide transition-all border ${
+                                examNavigation === nav 
+                                  ? 'bg-blue-500/20 text-blue-400 border-blue-500/50 shadow-md shadow-blue-500/10' 
+                                  : 'bg-base text-muted border-divider hover:border-slate-600'
+                              }`}
+                            >
+                              {nav}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <hr className="border-divider" />
+
+                  <div>
+                    <h3 className="text-primary font-bold tracking-wide uppercase flex items-center space-x-2 mb-6">
+                      <Clock className="w-5 h-5 text-purple-400" />
+                      <span>Environment & Flow</span>
+                    </h3>
+                    <div className="space-y-6">
+                      <div>
+                        <label className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3 block">
+                          Time Constraints
+                        </label>
+                        <div className="flex space-x-3">
+                          {['Untimed', 'Standard (1m/q)', 'Blitz (30s/q)'].map(t => (
+                            <button
+                              key={t}
+                              onClick={() => setTimerMode(t)}
+                              className={`flex-1 py-3 px-2 rounded-xl text-xs font-bold tracking-wide transition-all border ${
+                                timerMode === t 
+                                  ? 'bg-purple-500/20 text-purple-400 border-purple-500/50 shadow-md shadow-purple-500/10' 
+                                  : 'bg-base text-muted border-divider hover:border-slate-600'
+                              }`}
+                            >
+                              {t}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between bg-base p-5 rounded-xl border border-divider">
+                        <div>
+                          <h4 className="text-sm font-bold text-primary tracking-wide">Tutor Mode</h4>
+                          <p className="text-xs text-muted mt-1">Show correct answers & explanations immediately after each question</p>
+                        </div>
+                        <button 
+                          onClick={() => setTutorMode(!tutorMode)}
+                          className={`w-14 h-7 rounded-full relative transition-colors duration-300 focus:outline-none ${tutorMode ? 'bg-blue-500' : 'bg-slate-700'}`}
+                        >
+                          <div className={`w-5 h-5 rounded-full bg-white absolute top-1 transition-transform duration-300 ${tutorMode ? 'translate-x-8' : 'translate-x-1'}`}></div>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex justify-between pt-4">
+                  <button onClick={() => setSetupStep(1)} className="text-muted hover:text-primary transition-colors font-bold uppercase tracking-widest flex items-center space-x-2">
+                    <ArrowLeft className="w-4 h-4" />
+                    <span>Back</span>
                   </button>
-                ))}
+                  <button onClick={() => setSetupStep(3)} className="bg-blue-500 text-white hover:bg-blue-600 px-8 py-3 rounded-xl font-bold uppercase tracking-widest transition-all flex items-center space-x-2 active:scale-95 shadow-lg shadow-blue-500/20">
+                    <span>Next Step</span>
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
+                </div>
               </div>
-            </div>
+            )}
+
+            {/* Step 3: Summary */}
+            {setupStep === 3 && (
+              <div className="space-y-6 max-w-xl mx-auto animation-fade-in">
+                <div className="bg-surface border border-divider p-8 rounded-3xl shadow-lg relative overflow-hidden">
+                  <div className="absolute -top-10 -right-10 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl"></div>
+                  <h3 className="text-primary font-bold tracking-wide uppercase flex items-center space-x-2 mb-8">
+                    <Sparkles className="w-5 h-5 text-amber-400" />
+                    <span>Session Summary</span>
+                  </h3>
+                  
+                  <div className="space-y-6">
+                    <div className="flex justify-between items-center border-b border-divider pb-4">
+                      <span className="text-slate-500 font-bold uppercase tracking-widest text-xs">Course</span>
+                      <span className="text-primary font-bold text-right ml-4">{ENROLLED_COURSES[selectedCourse as keyof typeof ENROLLED_COURSES].name}</span>
+                    </div>
+                    {(quizScope === 'module' || quizScope === 'lecture') && (
+                      <div className="flex justify-between items-center border-b border-divider pb-4 animation-fade-in">
+                        <span className="text-slate-500 font-bold uppercase tracking-widest text-xs">Module</span>
+                        <span className="text-primary font-bold text-right ml-4">{selectedModule}</span>
+                      </div>
+                    )}
+                    {quizScope === 'lecture' && (
+                      <div className="flex justify-between items-center border-b border-divider pb-4 animation-fade-in">
+                        <span className="text-slate-500 font-bold uppercase tracking-widest text-xs">Lecture</span>
+                        <span className="text-primary font-bold text-right ml-4">{selectedLecture}</span>
+                      </div>
+                    )}
+                    <div className="flex justify-between items-center border-b border-divider pb-4">
+                      <span className="text-slate-500 font-bold uppercase tracking-widest text-xs">Navigation</span>
+                      <span className="text-primary font-bold">{examNavigation}</span>
+                    </div>
+                    <div className="flex justify-between items-center border-b border-divider pb-4">
+                      <span className="text-slate-500 font-bold uppercase tracking-widest text-xs">Timer</span>
+                      <span className="text-primary font-bold">{timerMode}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-slate-500 font-bold uppercase tracking-widest text-xs">Tutor Mode</span>
+                      <span className={`font-bold ${tutorMode ? 'text-blue-400' : 'text-slate-400'}`}>{tutorMode ? 'Enabled' : 'Disabled'}</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="flex items-center justify-between pt-4">
+                  <button onClick={() => setSetupStep(2)} className="text-muted hover:text-primary transition-colors font-bold uppercase tracking-widest flex items-center space-x-2">
+                    <ArrowLeft className="w-4 h-4" />
+                    <span>Back</span>
+                  </button>
+                  <button 
+                    onClick={() => setIsExamRunning(true)}
+                    className="bg-white text-[#020617] hover:bg-slate-200 px-8 py-3 rounded-xl font-black uppercase tracking-widest transition-all flex items-center space-x-3 transform active:scale-95 shadow-xl hover:shadow-white/20"
+                  >
+                    <span>Initialize Session</span>
+                    <Play className="w-5 h-5 fill-current" />
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
+        ) : (
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+              {/* Target Selection */}
+              <div className="space-y-6 bg-surface border border-divider p-6 rounded-3xl">
+                <h3 className="text-primary font-bold tracking-wide uppercase flex items-center space-x-2 mb-6">
+                  <Target className="w-5 h-5 text-blue-400" />
+                  <span>Target Selection</span>
+                </h3>
 
-          {/* Advanced / Environmental */}
-          <div className="space-y-6 bg-surface border border-divider p-6 rounded-3xl md:col-span-2">
-            <h3 className="text-primary font-bold tracking-wide uppercase flex items-center space-x-2 mb-6">
-              <Clock className="w-5 h-5 text-purple-400" />
-              <span>Environment & Flow</span>
-            </h3>
+                <div className="space-y-4">
+                  <div>
+                    <label className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3 flex items-center space-x-2">
+                      <Target className="w-3.5 h-3.5" />
+                      <span>Quiz Scope</span>
+                    </label>
+                    <div className="grid grid-cols-3 gap-2 mb-4">
+                      {[
+                        { id: 'course', label: 'Course' },
+                        { id: 'module', label: 'Module' },
+                        { id: 'lecture', label: 'Lecture' }
+                      ].map(scope => (
+                        <button
+                          key={scope.id}
+                          onClick={() => {
+                            setQuizScope(scope.id as 'course' | 'module' | 'lecture');
+                          }}
+                          className={`py-2 px-1 rounded-lg text-[10px] sm:text-xs font-bold tracking-wide transition-all border ${
+                            quizScope === scope.id 
+                              ? 'bg-blue-500/20 text-blue-400 border-blue-500/50' 
+                              : 'bg-base text-muted border-divider hover:border-slate-600'
+                          }`}
+                        >
+                          {scope.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {/* Timer options */}
-              <div>
-                <label className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3 block">
-                  Time Constraints
-                </label>
-                <div className="flex space-x-2">
-                  {['Untimed', 'Standard (1m/q)', 'Blitz (30s/q)'].map(t => (
-                    <button
-                      key={t}
-                      onClick={() => setTimerMode(t)}
-                      className={`flex-1 py-2 px-2 rounded-lg text-xs font-bold tracking-wide transition-all border ${
-                        timerMode === t 
-                          ? 'bg-purple-500/20 text-purple-400 border-purple-500/50' 
-                          : 'bg-base text-muted border-divider hover:border-slate-600'
-                      }`}
+                  <div>
+                    <label className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 flex items-center space-x-2">
+                      <BookOpen className="w-3.5 h-3.5" />
+                      <span>Enrolled Course</span>
+                    </label>
+                    <select 
+                      value={selectedCourse}
+                      onChange={(e) => {
+                        const courseKey = e.target.value as keyof typeof ENROLLED_COURSES;
+                        setSelectedCourse(courseKey);
+                        const firstModule = Object.keys(ENROLLED_COURSES[courseKey].modules)[0];
+                        setSelectedModule(firstModule);
+                        setSelectedLecture(ENROLLED_COURSES[courseKey].modules[firstModule as keyof typeof ENROLLED_COURSES[typeof courseKey]["modules"]][0]);
+                      }}
+                      className="w-full bg-base border border-divider text-primary rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500 transition-colors appearance-none cursor-pointer"
                     >
-                      {t}
-                    </button>
-                  ))}
+                      {Object.entries(ENROLLED_COURSES).map(([key, course]) => (
+                        <option key={key} value={key}>{course.name}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {(quizScope === 'module' || quizScope === 'lecture') && (
+                    <div className="animation-fade-in">
+                      <label className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 flex items-center space-x-2 mt-4">
+                        <Layers className="w-3.5 h-3.5" />
+                        <span>Specific Module</span>
+                      </label>
+                      <select 
+                        value={selectedModule}
+                        onChange={(e) => {
+                          setSelectedModule(e.target.value);
+                          const courseObj = ENROLLED_COURSES[selectedCourse as keyof typeof ENROLLED_COURSES];
+                          const modLectures = courseObj.modules[e.target.value as keyof typeof courseObj.modules] || [];
+                          if (modLectures.length > 0) setSelectedLecture(modLectures[0]);
+                        }}
+                        className="w-full bg-base border border-divider text-primary rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500 transition-colors appearance-none cursor-pointer"
+                      >
+                        {Object.keys(currentCourse.modules).map((mod) => (
+                          <option key={mod} value={mod}>{mod}</option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+
+                  {quizScope === 'lecture' && (
+                    <div className="animation-fade-in">
+                      <label className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 flex items-center space-x-2 mt-4">
+                        <FileText className="w-3.5 h-3.5" />
+                        <span>Specific Lecture</span>
+                      </label>
+                      <select 
+                        value={selectedLecture}
+                        onChange={(e) => setSelectedLecture(e.target.value)}
+                        className="w-full bg-base border border-divider text-primary rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500 transition-colors appearance-none cursor-pointer"
+                      >
+                        {(currentCourse.modules[selectedModule as keyof typeof currentCourse.modules] || []).map((lec: string) => (
+                          <option key={lec} value={lec}>{lec}</option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
                 </div>
               </div>
 
-              {/* Tutor Mode Toggle */}
-              <div className="flex items-center justify-between bg-base p-4 rounded-xl border border-divider">
-                <div>
-                  <h4 className="text-sm font-bold text-primary tracking-wide">Tutor Mode</h4>
-                  <p className="text-xs text-muted mt-1">Show correct answers & explanations immediately after each question</p>
+              {/* Parameters */}
+              <div className="space-y-6 bg-surface border border-divider p-6 rounded-3xl">
+                <h3 className="text-primary font-bold tracking-wide uppercase flex items-center space-x-2 mb-6">
+                  <Settings2 className="w-5 h-5 text-emerald-400" />
+                  <span>Session Parameters</span>
+                </h3>
+
+                {/* Difficulty */}
+                <div className="mb-6">
+                  <label className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3 flex items-center space-x-2">
+                    <Activity className="w-3.5 h-3.5" />
+                    <span>Difficulty Level</span>
+                  </label>
+                  <div className="grid grid-cols-4 gap-2">
+                    {['Easy', 'Medium', 'Hard', 'Mixed'].map(lvl => (
+                      <button
+                        key={lvl}
+                        onClick={() => setDifficulty(lvl)}
+                        className={`py-2 px-1 rounded-lg text-xs font-bold tracking-wide transition-all border ${
+                          difficulty === lvl 
+                            ? 'bg-blue-500/20 text-blue-400 border-blue-500/50' 
+                            : 'bg-base text-muted border-divider hover:border-slate-600'
+                        }`}
+                      >
+                        {lvl}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-                <button 
-                  onClick={() => setTutorMode(!tutorMode)}
-                  className={`w-12 h-6 rounded-full relative transition-colors duration-300 focus:outline-none ${tutorMode ? 'bg-blue-500' : 'bg-slate-700'}`}
-                >
-                  <div className={`w-4 h-4 rounded-full bg-white absolute top-1 transition-transform duration-300 ${tutorMode ? 'translate-x-7' : 'translate-x-1'}`}></div>
-                </button>
+
+                {/* Questions amount */}
+                <div>
+                  <label className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3 flex items-center space-x-2">
+                    <Hash className="w-3.5 h-3.5" />
+                    <span>Number of Questions</span>
+                  </label>
+                  <div className="grid grid-cols-4 gap-2">
+                    {['10', '20', '40', 'Endless'].map(count => (
+                      <button
+                        key={count}
+                        onClick={() => setQuestionCount(count)}
+                        className={`py-2 px-1 rounded-lg text-xs font-bold tracking-wide transition-all border ${
+                          questionCount === count 
+                            ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/50' 
+                            : 'bg-base text-muted border-divider hover:border-slate-600'
+                        }`}
+                      >
+                        {count}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Advanced / Environmental */}
+              <div className="space-y-6 bg-surface border border-divider p-6 rounded-3xl md:col-span-2">
+                <h3 className="text-primary font-bold tracking-wide uppercase flex items-center space-x-2 mb-6">
+                  <Clock className="w-5 h-5 text-purple-400" />
+                  <span>Environment & Flow</span>
+                </h3>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  {/* Timer options */}
+                  <div>
+                    <label className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3 block">
+                      Time Constraints
+                    </label>
+                    <div className="flex space-x-2">
+                      {['Untimed', 'Standard (1m/q)', 'Blitz (30s/q)'].map(t => (
+                        <button
+                          key={t}
+                          onClick={() => setTimerMode(t)}
+                          className={`flex-1 py-2 px-2 rounded-lg text-xs font-bold tracking-wide transition-all border ${
+                            timerMode === t 
+                              ? 'bg-purple-500/20 text-purple-400 border-purple-500/50' 
+                              : 'bg-base text-muted border-divider hover:border-slate-600'
+                          }`}
+                        >
+                          {t}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Tutor Mode Toggle */}
+                  <div className="flex items-center justify-between bg-base p-4 rounded-xl border border-divider">
+                    <div>
+                      <h4 className="text-sm font-bold text-primary tracking-wide">Tutor Mode</h4>
+                      <p className="text-xs text-muted mt-1">Show correct answers & explanations immediately after each question</p>
+                    </div>
+                    <button 
+                      onClick={() => setTutorMode(!tutorMode)}
+                      className={`w-12 h-6 rounded-full relative transition-colors duration-300 focus:outline-none ${tutorMode ? 'bg-blue-500' : 'bg-slate-700'}`}
+                    >
+                      <div className={`w-4 h-4 rounded-full bg-white absolute top-1 transition-transform duration-300 ${tutorMode ? 'translate-x-7' : 'translate-x-1'}`}></div>
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
 
-        {/* Action Bar */}
-        <div className="flex justify-end">
-          <button 
-            onClick={() => setIsExamRunning(true)}
-            className="bg-white text-[#020617] hover:bg-slate-200 px-8 py-4 rounded-xl font-black uppercase tracking-widest transition-all flex items-center space-x-3 transform active:scale-95 shadow-xl hover:shadow-white/20"
-          >
-            <span>Initialize Session</span>
-            <Play className="w-5 h-5 fill-current" />
-          </button>
-        </div>
+            {/* Action Bar */}
+            <div className="flex justify-end">
+              <button 
+                onClick={() => setIsExamRunning(true)}
+                className="bg-white text-[#020617] hover:bg-slate-200 px-8 py-4 rounded-xl font-black uppercase tracking-widest transition-all flex items-center space-x-3 transform active:scale-95 shadow-xl hover:shadow-white/20"
+              >
+                <span>Initialize Session</span>
+                <Play className="w-5 h-5 fill-current" />
+              </button>
+            </div>
+          </>
+        )}
 
       </div>
     );

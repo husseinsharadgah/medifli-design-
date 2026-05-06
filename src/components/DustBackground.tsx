@@ -43,8 +43,8 @@ export function DustBackground({ isLightMode }: DustBackgroundProps) {
 
     // Define colors relative to the theme
     // Dark mode: light blue (186, 230, 253)
-    // Light mode: medifli blue (59, 130, 246)
-    const particleRGB = isLightMode ? '59, 130, 246' : '186, 230, 253';
+    // Light mode: dark blue (30, 58, 138) for better contrast
+    const particleRGB = isLightMode ? '30, 58, 138' : '186, 230, 253';
 
     class Particle {
       x: number;
@@ -177,7 +177,7 @@ export function DustBackground({ isLightMode }: DustBackgroundProps) {
       {/* Dynamic dust particles layer - using mix-blend-multiply for light mode so particles darken the white background */}
       <canvas 
         ref={canvasRef} 
-        className={`absolute inset-0 w-full h-full opacity-[0.6] ${isLightMode ? 'mix-blend-multiply' : 'mix-blend-screen'}`}
+        className={`absolute inset-0 w-full h-full ${isLightMode ? 'opacity-[0.85] mix-blend-multiply' : 'opacity-[0.6] mix-blend-screen'}`}
       ></canvas>
     </div>
   );

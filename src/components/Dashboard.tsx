@@ -289,8 +289,8 @@ export function Dashboard({ setCurrentView, toggleLightMode, isLightMode }: Dash
           {[
             { title: 'Pediatrics Basics', author: 'QuickMed', modules: 40, image: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=400&h=250', color: 'text-indigo-400' },
             { title: 'Advanced Surgery', author: 'MedElite', modules: 62, image: 'https://images.unsplash.com/photo-1551076805-e1869033e561?auto=format&fit=crop&q=80&w=400&h=250', color: 'text-blue-400' },
-            { title: 'OBGYN Series', author: 'Dr. Rivers', modules: 85, image: 'https://images.unsplash.com/photo-1584308666744-24d5e4a4bed9?auto=format&fit=crop&q=80&w=400&h=250', color: 'text-emerald-400' },
-            { title: 'Emergency Focus', author: 'QuickMed', modules: 120, image: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=400&h=250', color: 'text-rose-400' },
+            { title: 'OBGYN Series', author: 'Dr. Rivers', modules: 85, image: 'https://images.unsplash.com/photo-1631815587646-b85a1bb027af?auto=format&fit=crop&q=80&w=400&h=250', color: 'text-emerald-400' },
+            { title: 'Emergency Focus', author: 'QuickMed', modules: 120, image: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&q=80&w=400&h=250', color: 'text-rose-400' },
           ].map((course, i) => (
             <div key={i} className="bg-surface border border-divider rounded-2xl overflow-hidden hover:border-[#3B82F6]/50 transition-all cursor-pointer group shadow-lg">
               <div className="h-32 bg-base flex items-center justify-center border-b border-divider relative overflow-hidden">
