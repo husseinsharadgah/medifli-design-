@@ -2,8 +2,8 @@ import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from 'recharts';
 import { 
-  Rocket, TrendingUp, BookOpen, CheckSquare, Compass, Play, Sun, Moon, Bell,
-  Activity, Zap, Clock
+  TrendingUp, BookOpen, CheckSquare, Compass, Play, Sun, Moon, Bell,
+  Activity, Zap, Clock, Rocket, Book, MapPin, ArrowRight
 } from 'lucide-react';
 
 const consistencyData = [
@@ -78,46 +78,153 @@ export function Dashboard({ setCurrentView, toggleLightMode, isLightMode }: Dash
         </div>
       </header>
 
-      {/* Quick-Launch Session */}
-      <div className="bg-surface border border-divider rounded-2xl p-6 shadow-xl">
-        <h3 className="text-sm font-bold text-primary flex items-center space-x-2 mb-6">
-          <Rocket className="w-4 h-4 text-[#3B82F6]" />
-          <span>Quick-Launch Session</span>
-        </h3>
+      {/* Current Course Interactive Banner - Alternative Design */}
+      <div className="relative w-full rounded-[2rem] overflow-hidden bg-[#0A0E17] p-8 md:p-12 shadow-2xl mb-8 border border-white/[0.05] group">
+        {/* Course Background Pathology UGS Picture */}
+        <div className="absolute inset-0 z-0 select-none pointer-events-none overflow-hidden rounded-[2rem]">
+          <img 
+            src="https://images.unsplash.com/photo-1579154204601-01588f351167?auto=format&fit=crop&q=80&w=1600&h=800" 
+            alt="Urogenital Pathology Medical System" 
+            className="w-full h-full object-cover opacity-[0.22] mix-blend-luminosity brightness-[50%] saturate-[110%] group-hover:scale-[1.04] transition-transform duration-[1200ms] ease-out"
+            referrerPolicy="no-referrer"
+          />
+          {/* Medical cellular micro overlay representing kidney system nephrons */}
+          <img 
+            src="https://images.unsplash.com/photo-1530026405186-ed1f139313f8?auto=format&fit=crop&q=80&w=1200&h=600" 
+            alt="UGS Kidney Glomerulus Cell Microscopy" 
+            className="absolute right-0 top-0 h-full w-1/2 object-cover opacity-[0.12] mix-blend-screen"
+            style={{ 
+              maskImage: 'linear-gradient(to left, rgba(0,0,0,1), rgba(0,0,0,0))',
+              WebkitMaskImage: 'linear-gradient(to left, rgba(0,0,0,1), rgba(0,0,0,0))'
+            }}
+            referrerPolicy="no-referrer"
+          />
+          {/* Subtle vignette gradient and darkness safety overlay for stellar text contrast */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0A0E17] via-[#0A0E17]/85 to-[#0A0E17]/40"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0A0E17] via-[#0A0E17]/95 to-[#0A0E17]/30"></div>
+        </div>
+
+        {/* Abstract Ambient Glows */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/15 rounded-full blur-[100px] pointer-events-none transition-transform duration-[1500ms] group-hover:scale-[1.2]"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-[100px] pointer-events-none transition-transform duration-[1500ms] group-hover:scale-[1.2]"></div>
         
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
-          <div className="md:col-span-1">
-            <label className="block text-[10px] font-bold text-muted uppercase tracking-wider mb-2">Course</label>
-            <select className="w-full bg-base border border-divider text-primary text-sm rounded-lg px-4 py-3 appearance-none focus:outline-none focus:border-[#3B82F6] transition-colors cursor-pointer">
-              <option>Internal Medicine</option>
-            </select>
-          </div>
-          <div className="md:col-span-1">
-            <label className="block text-[10px] font-bold text-muted uppercase tracking-wider mb-2">Target Subject</label>
-            <select className="w-full bg-base border border-divider text-primary text-sm rounded-lg px-4 py-3 appearance-none focus:outline-none focus:border-[#3B82F6] transition-colors cursor-pointer">
-              <option>Cardiology</option>
-            </select>
-          </div>
-          <div className="md:col-span-1">
-            <label className="block text-[10px] font-bold text-muted uppercase tracking-wider mb-2">Study Mode</label>
-            <select className="w-full bg-base border border-divider text-primary text-sm rounded-lg px-4 py-3 appearance-none focus:outline-none focus:border-[#3B82F6] transition-colors cursor-pointer">
-              <option>Question Bank (MCQ)</option>
-            </select>
-          </div>
-          <div className="md:col-span-1">
-            <label className="block text-[10px] font-bold text-muted uppercase tracking-wider mb-2">Difficulty Filter</label>
-            <select className="w-full bg-base border border-divider text-primary text-sm rounded-lg px-4 py-3 appearance-none focus:outline-none focus:border-[#3B82F6] transition-colors cursor-pointer">
-              <option>Smart Blend (Recommended)</option>
-            </select>
-          </div>
-          <div className="md:col-span-1">
+        {/* Delicate Dot Grid Overlay */}
+        <div 
+          className="absolute inset-0 opacity-40 z-0 pointer-events-none"
+          style={{ 
+            backgroundImage: 'radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px)',
+            backgroundSize: '24px 24px',
+            maskImage: 'linear-gradient(to bottom right, rgba(0,0,0,1), rgba(0,0,0,0))',
+            WebkitMaskImage: 'linear-gradient(to bottom right, rgba(0,0,0,1), rgba(0,0,0,0))'
+          }}
+        ></div>
+
+        <div className="relative z-10 flex flex-col xl:flex-row items-center justify-between gap-12">
+          {/* Left Side: Course Info */}
+          <div className="flex-1 space-y-8 w-full xl:w-auto">
+            <div className="inline-flex items-center space-x-3 px-4 py-2 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-400">
+              <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse shadow-[0_0_8px_rgba(59,130,246,0.8)]"></div>
+              <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] leading-none">QuickMed Academy</span>
+            </div>
+            
+            <div className="space-y-3">
+              <h2 className="text-4xl sm:text-[64px] font-black text-white leading-[1.05] tracking-tighter">
+                Pathology<br/>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">UGS Learning.</span>
+              </h2>
+              <p className="text-slate-400 font-medium text-base sm:text-lg tracking-wide max-w-xl">
+                Master systemic pathology with comprehensive visual modules and integrated clinical scenarios.
+              </p>
+            </div>
+            
+            {/* Quick Stat Badges */}
+            <div className="flex flex-wrap items-center gap-3">
+              {[
+                { icon: Play, text: '26 Videos' },
+                { icon: Book, text: '6 Modules' },
+                { icon: Activity, text: '15% Completed' }
+              ].map((stat, i) => (
+                <div key={i} className="flex items-center justify-center space-x-2 bg-white/[0.03] border border-white/[0.05] rounded-xl px-4 py-2.5 hover:bg-white/[0.06] transition-colors">
+                  <stat.icon className="w-4 h-4 text-slate-400" />
+                  <span className="text-xs sm:text-sm font-semibold text-slate-300">{stat.text}</span>
+                </div>
+              ))}
+            </div>
+            
             <button 
-              onClick={() => setCurrentView('practice')}
-              className="w-full bg-[#3B82F6] hover:bg-blue-600 text-primary font-bold py-3 px-4 rounded-lg flex items-center justify-center space-x-2 transition-colors cursor-pointer border border-blue-400/30"
+              onClick={() => setCurrentView('course-resume')}
+              className="bg-white text-[#0A0E17] hover:bg-slate-200 font-black py-4 px-10 rounded-xl flex items-center space-x-3 transition-all transform active:scale-95 uppercase text-xs tracking-[0.15em] mt-4 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(255,255,255,0.2)]"
             >
-              <span>Launch</span>
-              <Play className="w-4 h-4 fill-current" />
+              <span>Resume Session</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </button>
+          </div>
+
+          {/* Right Side: Glass Stats Modules */}
+          <div className="w-full xl:w-[460px] shrink-0 space-y-5 relative z-10">
+             
+            {/* Main Progress Glass Card */}
+            <div className="bg-white/[0.02] backdrop-blur-3xl rounded-3xl border border-white/[0.08] p-7 shadow-2xl space-y-7 relative overflow-hidden group/card hover:bg-white/[0.04] transition-colors">
+              <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity"></div>
+              
+              <div className="flex justify-between items-end">
+                <div>
+                  <p className="text-[10px] text-blue-400 font-bold uppercase tracking-[0.2em] mb-1.5 flex items-center space-x-2">
+                    <BookOpen className="w-3.5 h-3.5" />
+                    <span>Active Course</span>
+                  </p>
+                  <h3 className="text-white text-xl sm:text-2xl font-bold tracking-tight shrink-0">Pathology UGS</h3>
+                </div>
+                <div className="text-right">
+                  <p className="text-[10px] text-slate-500 font-bold uppercase tracking-[0.2em] mb-1.5 flex items-center justify-end space-x-1">
+                    <TrendingUp className="w-3 h-3" />
+                    <span>Progress</span>
+                  </p>
+                  <span className="text-3xl font-black text-emerald-400 leading-none tracking-tight">15%</span>
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <div className="w-full h-1.5 bg-black/40 rounded-full overflow-hidden border border-white/[0.05]">
+                  <div className="h-full bg-gradient-to-r from-blue-500 to-emerald-400 rounded-full w-[15%] relative shadow-[0_0_10px_rgba(52,211,153,0.5)]">
+                    <div className="absolute right-0 top-0 bottom-0 w-4 bg-white/30 blur-[2px]"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-3 gap-3">
+                {[
+                  { label: 'Total', value: '26' },
+                  { label: 'Watched', value: '4' },
+                  { label: 'Left', value: '22', highlight: true }
+                ].map((item, i) => (
+                  <div key={i} className="bg-black/20 rounded-2xl p-4 flex flex-col items-center justify-center border border-white/[0.03] backdrop-blur-sm transition-colors hover:bg-black/30 cursor-default">
+                    <span className={`text-2xl font-black leading-none mb-1.5 ${item.highlight ? 'text-white' : 'text-slate-300'}`}>{item.value}</span>
+                    <span className="text-[9px] text-slate-500 font-bold uppercase tracking-[0.2em]">{item.label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Ranking Details Glass Card */}
+            <div className="bg-white/[0.02] backdrop-blur-3xl rounded-3xl border border-white/[0.08] p-6 shadow-2xl relative overflow-hidden group/card hover:bg-white/[0.04] transition-colors flex items-center justify-between">
+              <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-emerald-500/50 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity pb-[1px]"></div>
+              
+              <div className="space-y-1.5">
+                <h4 className="text-slate-300 text-xs font-bold uppercase tracking-[0.15em] flex items-center space-x-2">
+                  <Rocket className="w-4 h-4 text-emerald-400" />
+                  <span>Leaderboard Rank</span>
+                </h4>
+                <p className="text-[10px] text-slate-500 tracking-wide font-medium">You are in the top 5%</p>
+              </div>
+              
+              <div className="flex items-baseline space-x-1.5">
+                <span className="text-slate-500 text-lg font-black uppercase tracking-wider">#</span>
+                <span className="text-4xl font-black text-white leading-none tracking-tighter">1</span>
+                <span className="text-[10px] text-slate-500 font-bold uppercase tracking-[0.2em] ml-1">/ 52</span>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>

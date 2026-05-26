@@ -13,6 +13,7 @@ import { Courses } from './components/Courses';
 import { Messages } from './components/Messages';
 import { ExploreCourses } from './components/ExploreCourses';
 import { Quizzes } from './components/Quizzes';
+import { ResumeCourse } from './components/ResumeCourse';
 import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X, BrainCircuit, Shield, GraduationCap, FastForward } from 'lucide-react';
 
@@ -131,6 +132,8 @@ export default function App() {
         return <Dashboard setCurrentView={handleNavigate} toggleLightMode={() => setIsLightMode(!isLightMode)} isLightMode={isLightMode} />;
       case 'courses':
         return <Courses setCurrentView={handleNavigate} />;
+      case 'course-resume':
+        return <ResumeCourse onBack={() => handleNavigate('courses')} isLightMode={isLightMode} toggleLightMode={() => setIsLightMode(!isLightMode)} />;
       case 'messages':
         return <Messages />;
       case 'explore':
@@ -160,18 +163,20 @@ export default function App() {
       </div>
 
       {/* Mobile Header */}
-      <div className="md:hidden fixed top-0 left-0 right-0 h-16 bg-base/80 backdrop-blur-md border-b border-divider z-50 flex items-center justify-between px-4 shadow-sm">
-        <div className="flex items-center space-x-2 text-blue-500">
-          <BrainCircuit className="w-6 h-6" />
-          <span className="font-bold text-xl tracking-tight text-primary">MEDIFLI</span>
+      {currentView !== 'course-resume' && (
+        <div className="md:hidden fixed top-0 left-0 right-0 h-16 bg-base/80 backdrop-blur-md border-b border-divider z-50 flex items-center justify-between px-4 shadow-sm">
+          <div className="flex items-center space-x-2 text-blue-500">
+            <BrainCircuit className="w-6 h-6" />
+            <span className="font-bold text-xl tracking-tight text-primary">MEDIFLI</span>
+          </div>
+          <button 
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="p-2 text-muted hover:bg-slate-800 rounded-lg transition-colors cursor-pointer relative z-50"
+          >
+            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
         </div>
-        <button 
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="p-2 text-muted hover:bg-slate-800 rounded-lg transition-colors cursor-pointer relative z-50"
-        >
-          {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </button>
-      </div>
+      )}
 
       {/* Mobile Menu Overlay */}
       <AnimatePresence>
@@ -187,20 +192,22 @@ export default function App() {
       </AnimatePresence>
 
       {/* Sidebar */}
-      <div className={`fixed inset-y-0 left-0 transform ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} md:relative md:translate-x-0 transition duration-300 ease-in-out z-50 md:z-20`}>
-        <Sidebar 
-          currentView={currentView} 
-          setCurrentView={handleNavigate} 
-          onExit={() => setAppMode('portal')}
-          isCollapsed={isSidebarCollapsed}
-          toggleSidebar={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-          isLightMode={isLightMode}
-        />
-      </div>
+      {currentView !== 'course-resume' && (
+        <div className={`fixed inset-y-0 left-0 transform ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} md:relative md:translate-x-0 transition duration-300 ease-in-out z-50 md:z-20`}>
+          <Sidebar 
+            currentView={currentView} 
+            setCurrentView={handleNavigate} 
+            onExit={() => setAppMode('portal')}
+            isCollapsed={isSidebarCollapsed}
+            toggleSidebar={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+            isLightMode={isLightMode}
+          />
+        </div>
+      )}
 
       {/* Main Content */}
-      <main className="flex-1 h-full overflow-y-auto pt-16 md:pt-0 bg-transparent relative z-10">
-        <div className="p-4 md:p-8 lg:p-10 h-full max-w-[1600px] mx-auto relative z-10">
+      <main className={`flex-1 h-full overflow-y-auto ${currentView === 'course-resume' ? 'pt-0' : 'pt-16 md:pt-0'} bg-transparent relative z-10`}>
+        <div className={`p-4 md:p-8 ${currentView === 'course-resume' ? 'lg:p-6' : 'lg:p-10'} h-full ${currentView === 'course-resume' ? 'max-w-[1700px]' : 'max-w-[1600px]'} mx-auto relative z-10`}>
           <AnimatePresence mode="wait">
             <motion.div
               key={currentView}

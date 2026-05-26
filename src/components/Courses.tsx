@@ -381,7 +381,10 @@ export function Courses({ setCurrentView }: { setCurrentView: (view: string) => 
                     </div>
 
                     {/* Action Button */}
-                    <button className="w-full mt-4 bg-white hover:bg-slate-200 text-[#020617] font-black uppercase tracking-widest py-3.5 rounded-xl transition-all flex items-center justify-center space-x-2 flex-shrink-0 transform active:scale-95 shadow-xl">
+                    <button 
+                      onClick={() => setCurrentView('course-resume')}
+                      className="w-full mt-4 bg-white hover:bg-slate-200 text-[#020617] font-black uppercase tracking-widest py-3.5 rounded-xl transition-all flex items-center justify-center space-x-2 flex-shrink-0 transform active:scale-95 shadow-xl"
+                    >
                       <span>Resume Course</span>
                       <Play className="w-4 h-4 fill-current" />
                     </button>
